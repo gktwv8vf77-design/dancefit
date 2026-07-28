@@ -1,0 +1,68 @@
+{
+  "version": "1.0",
+  "name": "Renforcement Danse",
+  "objective": "Renforcement musculaire pour améliorer ma danse (hip-hop, heels) — jambes, gainage, chevilles.",
+  "seances": {
+    "A": {
+      "name": "Jambes & Force",
+      "desc": "Squats, fentes, deadlifts — puissance pour la danse.",
+      "chips": ["⏱ 45 min", "💪 Jambes"],
+      "steps": [
+        {"phase":"Échauffement","type":"exercise","name":"Cercles de hanches & mobilité chevilles","chips":["2 min","Poids du corps"],"tip":"Hanches : grands cercles dans les deux sens. Chevilles : dessine des cercles avec le pied.","hasFeedback":false},
+        {"phase":"Échauffement","type":"exercise","name":"Montées sur pointes","chips":["1 min","Lent"],"tip":"Monte sur la pointe, tiens 2 sec en haut, redescends doucement. Essentiel pour les heels.","hasFeedback":false},
+        {"phase":"Échauffement","type":"exercise","name":"Fentes au poids du corps","chips":["1 min","Alternées"],"tip":"Posture droite, genou avant à 90°.","hasFeedback":false},
+        {"phase":"Échauffement","type":"exercise","name":"Planche","chips":["30 sec"],"tip":"Corps aligné, ventre rentré. Lance le timer.","hasFeedback":false,"isTimed":true,"timedSec":30},
+        {"phase":"Bloc 1 — Jambes","type":"exercise","name":"Squat sumo","chips":["3 × 12 reps","8 kg"],"tip":"Pieds larges, pointes à 45°. Haltère à deux mains. Fessiers jusqu'aux genoux.","hasFeedback":true,"defaultWeight":8,"defaultReps":12,"maxWeight":20,"alternatives":["Squat goblet","Leg press machine"]},
+        {"phase":"Bloc 1 — Jambes","type":"rest","duration":60},
+        {"phase":"Bloc 1 — Jambes","type":"exercise","name":"Romanian deadlift unilatéral","chips":["3 × 10 / jambe","6 kg"],"tip":"Jambe libre vers l'arrière, dos droit. Sens l'étirement dans l'arrière de la cuisse.","hasFeedback":true,"defaultWeight":6,"defaultReps":10,"maxWeight":16,"alternatives":["Romanian deadlift bilateral","Curl ischio couché"]},
+        {"phase":"Bloc 1 — Jambes","type":"rest","duration":60},
+        {"phase":"Bloc 1 — Jambes","type":"exercise","name":"Fentes bulgares","chips":["3 × 10 / jambe","5 kg"],"tip":"Pied arrière sur banc. Descends le genou arrière vers le sol.","hasFeedback":true,"defaultWeight":5,"defaultReps":10,"maxWeight":16,"alternatives":["Fentes marchées","Fentes statiques"]},
+        {"phase":"Bloc 1 — Jambes","type":"rest","duration":60},
+        {"phase":"Bloc 1 — Jambes","type":"exercise","name":"Hip thrust au sol","chips":["3 × 12 reps","Poids du corps"],"tip":"Dos au sol, pousse le bassin vers le haut. Serre les fessiers en haut.","hasFeedback":true,"defaultWeight":0,"defaultReps":12,"maxWeight":20,"alternatives":["Pont fessier simple","Donkey kicks"]},
+        {"phase":"Bloc 1 — Jambes","type":"rest","duration":60},
+        {"phase":"Bloc 2 — Gainage","type":"exercise","name":"Planche avant","chips":["3 × 40 sec"],"tip":"Corps aligné, respiration régulière. Lance le timer.","hasFeedback":true,"defaultWeight":0,"defaultReps":null,"isTimed":true,"timedSec":40,"maxWeight":0,"alternatives":["Planche sur les genoux","Planche 20 sec"]},
+        {"phase":"Bloc 2 — Gainage","type":"rest","duration":60},
+        {"phase":"Bloc 2 — Gainage","type":"exercise","name":"Planche latérale","chips":["3 × 20 sec / côté"],"tip":"Appui sur l'avant-bras, corps droit. Lance le timer pour chaque côté.","hasFeedback":true,"defaultWeight":0,"defaultReps":null,"isTimed":true,"timedSec":20,"maxWeight":0,"alternatives":["Planche latérale genoux","Clamshell"]},
+        {"phase":"Bloc 2 — Gainage","type":"rest","duration":60},
+        {"phase":"Bloc 2 — Gainage","type":"exercise","name":"Dead bug","chips":["3 × 10 reps"],"tip":"Bras vers le plafond, genoux à 90°. Descends bras droit + jambe gauche ensemble.","hasFeedback":true,"defaultWeight":0,"defaultReps":10,"maxWeight":0,"alternatives":["Crunch simple","Relevé de jambes allongée"]},
+        {"phase":"Bloc 2 — Gainage","type":"rest","duration":60},
+        {"phase":"Bloc 2 — Gainage","type":"exercise","name":"Pont fessier unilatéral","chips":["3 × 12 / jambe"],"tip":"Une jambe tendue, pousse avec l'autre. Bassin stable.","hasFeedback":true,"defaultWeight":0,"defaultReps":12,"maxWeight":10,"alternatives":["Pont fessier bilateral","Hip thrust au sol"]},
+        {"phase":"Bloc 2 — Gainage","type":"rest","duration":60},
+        {"phase":"Retour au calme","type":"exercise","name":"Étirement quadriceps","chips":["1 min / jambe"],"tip":"Debout, tire le pied vers les fessiers.","hasFeedback":false},
+        {"phase":"Retour au calme","type":"exercise","name":"Étirement ischio-jambiers","chips":["1 min / jambe"],"tip":"Assis, jambe tendue, penche le buste. Dos droit.","hasFeedback":false},
+        {"phase":"Retour au calme","type":"exercise","name":"Étirement mollets & chevilles","chips":["1 min"],"tip":"Appui contre un mur, talon au sol. Puis cercles de chevilles.","hasFeedback":false},
+        {"phase":"Retour au calme","type":"exercise","name":"Étirement fléchisseurs de hanche","chips":["1 min / côté"],"tip":"Fente basse, genou arrière au sol. Pousse le bassin vers l'avant.","hasFeedback":false},
+        {"phase":"Retour au calme","type":"exercise","name":"Respiration & relâchement","chips":["2 min"],"tip":"Inspire 4 sec, expire 6 sec. Relâche chaque muscle.","hasFeedback":false}
+      ]
+    },
+    "B": {
+      "name": "Gainage & Mobilité",
+      "desc": "Core, hanches, chevilles — stabilité et fluidité.",
+      "chips": ["⏱ 45 min", "🎯 Core"],
+      "steps": [
+        {"phase":"Échauffement","type":"exercise","name":"Cercles de hanches & rotation thoracique","chips":["2 min"],"tip":"Hanches : grands cercles. Rotation : assis en tailleur, tourne le buste bras ouverts.","hasFeedback":false},
+        {"phase":"Échauffement","type":"exercise","name":"Chat-vache","chips":["1 min"],"tip":"À quatre pattes. Inspire en creusant (vache), expire en arrondissant (chat). Lent.","hasFeedback":false},
+        {"phase":"Échauffement","type":"exercise","name":"Montées de genoux","chips":["1 min"],"tip":"Lève les genoux alternativement à hauteur des hanches. Buste droit.","hasFeedback":false},
+        {"phase":"Échauffement","type":"exercise","name":"Étirements dynamiques des hanches","chips":["1 min"],"tip":"Fentes basses alternées, 3 sec chaque côté.","hasFeedback":false},
+        {"phase":"Bloc 1 — Gainage","type":"exercise","name":"Planche avant tenue longue","chips":["3 × 45 sec"],"tip":"Serre les fessiers, rentre le ventre. Lance le timer.","hasFeedback":true,"defaultWeight":0,"defaultReps":null,"isTimed":true,"timedSec":45,"maxWeight":0,"alternatives":["Planche 30 sec","Planche sur les genoux"]},
+        {"phase":"Bloc 1 — Gainage","type":"rest","duration":60},
+        {"phase":"Bloc 1 — Gainage","type":"exercise","name":"Planche latérale avec rotation","chips":["3 × 10 / côté"],"tip":"En planche latérale, passe le bras sous le corps puis ouvre vers le plafond.","hasFeedback":true,"defaultWeight":0,"defaultReps":10,"maxWeight":0,"alternatives":["Planche latérale statique","Clamshell"]},
+        {"phase":"Bloc 1 — Gainage","type":"rest","duration":60},
+        {"phase":"Bloc 1 — Gainage","type":"exercise","name":"Mountain climbers lents","chips":["3 × 20 reps"],"tip":"En planche, ramène un genou vers la poitrine puis l'autre. Lent = gainage.","hasFeedback":true,"defaultWeight":0,"defaultReps":20,"maxWeight":0,"alternatives":["Mountain climbers genoux fléchis","Bird dog"]},
+        {"phase":"Bloc 1 — Gainage","type":"rest","duration":60},
+        {"phase":"Bloc 2 — Hanches & Chevilles","type":"exercise","name":"Clamshell","chips":["3 × 15 / côté"],"tip":"Allongée sur le côté, genoux pliés. Ouvre le genou du dessus. Bassin immobile.","hasFeedback":true,"defaultWeight":0,"defaultReps":15,"maxWeight":0,"alternatives":["Abduction debout","Fire hydrant"]},
+        {"phase":"Bloc 2 — Hanches & Chevilles","type":"rest","duration":60},
+        {"phase":"Bloc 2 — Hanches & Chevilles","type":"exercise","name":"Glute bridge avec abduction","chips":["3 × 12 reps"],"tip":"Pont fessier, en haut tu écares légèrement les genoux.","hasFeedback":true,"defaultWeight":0,"defaultReps":12,"maxWeight":10,"alternatives":["Pont fessier simple","Hip thrust au sol"]},
+        {"phase":"Bloc 2 — Hanches & Chevilles","type":"rest","duration":60},
+        {"phase":"Bloc 2 — Hanches & Chevilles","type":"exercise","name":"Élévations sur pointes unilatérales","chips":["3 × 15 / pied"],"tip":"Sur une jambe, monte sur la pointe, tiens 2 sec, redescends doucement.","hasFeedback":true,"defaultWeight":0,"defaultReps":15,"maxWeight":5,"alternatives":["Élévations bilatérales","Marche sur les pointes"]},
+        {"phase":"Bloc 2 — Hanches & Chevilles","type":"rest","duration":60},
+        {"phase":"Bloc 2 — Hanches & Chevilles","type":"exercise","name":"Squat latéral alterné","chips":["3 × 10 / côté"],"tip":"Pas large, glisse sur le côté en pliant un genou, l'autre jambe tendue.","hasFeedback":true,"defaultWeight":0,"defaultReps":10,"maxWeight":8,"alternatives":["Squat sumo","Squat au poids du corps"]},
+        {"phase":"Bloc 2 — Hanches & Chevilles","type":"rest","duration":60},
+        {"phase":"Retour au calme","type":"exercise","name":"Pigeon au sol","chips":["2 min / côté"],"tip":"Jambe pliée à 90° devant, l'autre tendue derrière. Penche le buste en avant.","hasFeedback":false},
+        {"phase":"Retour au calme","type":"exercise","name":"Étirement mollets & chevilles","chips":["1 min"],"tip":"Appui contre un mur, talon au sol. Puis cercles de chevilles.","hasFeedback":false},
+        {"phase":"Retour au calme","type":"exercise","name":"Étirement adducteurs","chips":["1 min"],"tip":"Assis, plantes des pieds ensemble (papillon). Pousse doucement les genoux vers le sol.","hasFeedback":false},
+        {"phase":"Retour au calme","type":"exercise","name":"Respiration & relâchement","chips":["2 min"],"tip":"Inspire 4 sec, expire 6 sec. Relâche chaque muscle.","hasFeedback":false}
+      ]
+    }
+  }
+}

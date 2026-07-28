@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Dance Fit">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="theme-color" content="#0d0d10">
+<title>Dance Fit</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700;9..40,900&family=DM+Mono:wght@400;500&display=swap');
+:root{--bg:#0d0d10;--surface:#16161c;--border:#222228;--accent:#e879f9;--accent2:#7c3aed;--green:#34d399;--orange:#fb923c;--red:#f87171;--text:#f0eef5;--muted:#64617a;--r:14px;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;max-width:430px;margin:0 auto;overflow-x:hidden;}
+.screen{display:none;min-height:100vh;flex-direction:column;}
+.screen.active{display:flex;}
+.btn-back{background:none;border:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;padding:0;display:flex;align-items:center;gap:6px;}
+.section-label{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.btn-cta{width:100%;padding:18px;border-radius:var(--r);border:none;background:linear-gradient(135deg,var(--accent2),var(--accent));color:#fff;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:transform .15s;}
+.btn-cta:active{transform:scale(.97);}
+.btn-secondary{width:100%;padding:14px;border-radius:var(--r);border:1.5px solid var(--border);background:transparent;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;}
+.chip{font-size:11px;font-weight:600;background:var(--border);border-radius:6px;padding:4px 10px;color:var(--muted);}
+.chip.accent{border:1px solid var(--accent);color:var(--accent);background:#2d0f5e33;}
+
+/* HOME */
+#s-home{padding:48px 24px 40px;gap:28px;background:radial-gradient(ellipse 80% 40% at 50% 0%,#2d0f5e55 0%,transparent 70%);}
+.app-name{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);}
+.home-title{font-size:38px;font-weight:900;line-height:1.05;letter-spacing:-.03em;margin-top:6px;}
+.home-title em{font-style:normal;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.objective-display{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:14px 16px;font-size:14px;color:var(--muted);line-height:1.5;cursor:pointer;transition:border-color .2s;}
+.objective-display:active{border-color:var(--accent);}
+.config-row{display:flex;gap:10px;}
+.config-card{flex:1;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:16px 12px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;transition:border-color .2s,background .2s;user-select:none;}
+.config-card.selected{border-color:var(--accent);background:#2d0f5e33;}
+.config-card.disabled{opacity:.35;cursor:not-allowed;}
+.config-icon{font-size:22px;font-weight:900;color:var(--accent);}
+.config-title{font-size:13px;font-weight:700;text-align:center;}
+.config-sub{font-size:11px;color:var(--muted);text-align:center;line-height:1.4;}
+.config-tag{font-size:10px;font-weight:700;color:var(--orange);background:#fb923c22;border-radius:20px;padding:2px 8px;}
+.home-footer{font-size:12px;color:var(--muted);text-align:center;line-height:1.6;}
+.no-program-banner{background:#fb923c22;border:1.5px solid var(--orange);border-radius:var(--r);padding:14px 16px;font-size:13px;color:var(--orange);line-height:1.5;}
+
+/* PICKER */
+#s-picker{padding:48px 24px 32px;gap:24px;background:radial-gradient(ellipse 80% 40% at 50% 0%,#2d0f5e55 0%,transparent 70%);}
+.seance-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;gap:10px;cursor:pointer;transition:border-color .2s,transform .15s;}
+.seance-card:active{transform:scale(.98);}
+.seance-card.recommended{border-color:var(--accent);}
+.seance-header{display:flex;align-items:center;justify-content:space-between;}
+.seance-letter{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--accent2),var(--accent));display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:#fff;}
+.seance-letter.b{background:linear-gradient(135deg,#065f46,#34d399);}
+.rec-badge{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);background:#2d0f5e44;border:1px solid var(--accent);border-radius:20px;padding:3px 10px;}
+.seance-name{font-size:20px;font-weight:800;letter-spacing:-.02em;}
+.seance-desc{font-size:13px;color:var(--muted);line-height:1.5;}
+.seance-chips{display:flex;gap:8px;flex-wrap:wrap;}
+
+/* WORKOUT */
+#s-workout{padding:0;height:100vh;overflow:hidden;}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 20px 10px;background:var(--bg);border-bottom:1px solid var(--border);flex-shrink:0;}
+.phase-label{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);}
+.progress-wrap{display:flex;align-items:center;gap:10px;flex:1;margin:0 12px;}
+.progress-bar-bg{flex:1;height:3px;background:var(--border);border-radius:4px;overflow:hidden;}
+.progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:4px;transition:width .4s ease;}
+.step-count{font-size:11px;font-weight:600;color:var(--muted);white-space:nowrap;}
+.btn-quit{font-size:12px;font-weight:600;color:var(--muted);background:none;border:none;cursor:pointer;padding:4px 8px;}
+.workout-body{flex:1;display:flex;flex-direction:column;padding:14px 20px 0;gap:10px;min-height:0;}
+.phase-badge{display:inline-flex;align-items:center;gap:6px;background:#1e1e2e;border:1px solid var(--border);border-radius:40px;padding:5px 12px;font-size:11px;font-weight:600;color:var(--muted);align-self:flex-start;flex-shrink:0;}
+.phase-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);}
+.exercise-name{font-size:clamp(20px,6vw,28px);font-weight:900;line-height:1.1;letter-spacing:-.02em;flex-shrink:0;}
+.exercise-chips{display:flex;gap:8px;flex-wrap:wrap;flex-shrink:0;}
+.tip-box{background:#16162a;border-left:3px solid var(--accent2);border-radius:0 10px 10px 0;padding:10px 14px;font-size:12px;line-height:1.5;color:#c4c0d8;flex-shrink:0;}
+.tip-label{font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent2);margin-bottom:2px;}
+
+/* FEEDBACK */
+.feedback-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:12px 14px;display:flex;flex-direction:column;gap:10px;flex-shrink:0;}
+.fb-section-title{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);}
+.stepper-row{display:flex;gap:10px;}
+.stepper-block{flex:1;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 8px;}
+.stepper-label{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;}
+.stepper-controls{display:flex;align-items:center;gap:6px;}
+.stepper-btn{width:34px;height:34px;border-radius:8px;border:1.5px solid var(--border);background:var(--surface);color:var(--text);font-size:20px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;padding-bottom:1px;}
+.stepper-btn:active{background:var(--border);}
+.stepper-val{font-size:22px;font-weight:900;min-width:44px;text-align:center;font-variant-numeric:tabular-nums;}
+.stepper-unit{font-size:11px;color:var(--muted);font-weight:600;}
+.stepper-ref{font-size:10px;color:var(--muted);margin-top:1px;text-align:center;}
+.stepper-ref.better{color:var(--green);}
+.stepper-ref.worse{color:var(--orange);}
+.diff-row{display:flex;gap:6px;}
+.diff-btn{flex:1;padding:8px 2px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);color:var(--muted);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:all .15s;text-align:center;line-height:1.4;}
+.diff-btn.selected-easy{border-color:var(--green);background:#06423033;color:var(--green);}
+.diff-btn.selected-ok{border-color:var(--accent);background:#2d0f5e33;color:var(--accent);}
+.diff-btn.selected-hard{border-color:var(--orange);background:#fb923c22;color:var(--orange);}
+.diff-btn.selected-switch{border-color:var(--red);background:#f8717122;color:var(--red);}
+
+/* MANUAL TIMER */
+.manual-timer{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-shrink:0;}
+.manual-timer-display{font-size:32px;font-weight:900;font-family:'DM Mono',monospace;color:var(--green);letter-spacing:-.02em;}
+.manual-timer-display.running{color:var(--accent);}
+.manual-timer-display.done{color:var(--green);}
+.timer-btn{padding:9px 16px;border-radius:10px;border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;}
+.timer-btn.start{background:linear-gradient(135deg,#065f46,#34d399);color:#fff;}
+.timer-btn.pause{background:var(--border);color:var(--text);}
+.timer-btn.reset{background:transparent;border:1.5px solid var(--border);color:var(--muted);font-size:11px;padding:7px 10px;}
+
+/* REST */
+.rest-card{display:flex;flex-direction:column;align-items:center;gap:16px;flex:1;justify-content:center;}
+.timer-card{background:var(--surface);border-radius:var(--r);padding:24px 20px;display:flex;flex-direction:column;align-items:center;gap:14px;border:1px solid var(--border);width:100%;}
+.timer-label{font-size:12px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--green);}
+.timer-display{font-size:68px;font-weight:900;letter-spacing:-.04em;color:var(--green);line-height:1;font-family:'DM Mono',monospace;}
+.timer-sub{font-size:13px;color:var(--muted);}
+.bottom-bar{padding:12px 20px 28px;background:linear-gradient(to top,var(--bg) 60%,transparent);flex-shrink:0;display:flex;flex-direction:column;gap:8px;align-items:center;}
+.btn-main{width:100%;padding:16px;border-radius:var(--r);border:none;background:linear-gradient(135deg,var(--accent2),var(--accent));color:#fff;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:transform .15s;}
+.btn-main:active{transform:scale(.97);}
+.btn-main.rest-mode{background:linear-gradient(135deg,#065f46,#34d399);}
+.btn-skip{font-size:13px;color:var(--muted);background:none;border:none;cursor:pointer;padding:4px;}
+
+/* RECAP */
+#s-recap{padding:36px 24px;gap:18px;background:radial-gradient(ellipse 80% 40% at 50% 50%,#1a0b4055 0%,transparent 70%);}
+.recap-header{text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px;}
+.recap-emoji{font-size:44px;}
+.recap-title{font-size:26px;font-weight:900;letter-spacing:-.03em;}
+.recap-sub{font-size:13px;color:var(--muted);}
+.recap-list{display:flex;flex-direction:column;gap:8px;}
+.recap-item{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.recap-item.easy{border-left:3px solid var(--green);}
+.recap-item.ok{border-left:3px solid var(--accent);}
+.recap-item.hard{border-left:3px solid var(--orange);}
+.recap-item.switch{border-left:3px solid var(--red);}
+.recap-name{font-size:13px;font-weight:700;flex:1;}
+.recap-details{font-size:12px;color:var(--muted);text-align:right;line-height:1.5;}
+.recap-diff-badge{font-size:11px;font-weight:700;padding:3px 8px;border-radius:20px;margin-top:2px;}
+.recap-diff-badge.easy{color:var(--green);background:#06423033;}
+.recap-diff-badge.ok{color:var(--accent);background:#2d0f5e33;}
+.recap-diff-badge.hard{color:var(--orange);background:#fb923c22;}
+.recap-diff-badge.switch{color:var(--red);background:#f8717122;}
+
+/* SUGGESTIONS */
+.suggestion-card{background:var(--surface);border:1.5px solid var(--accent2);border-radius:var(--r);padding:14px 16px;display:flex;flex-direction:column;gap:8px;}
+.suggestion-title{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent2);}
+.suggestion-item{font-size:13px;color:var(--text);line-height:1.5;padding:8px 0;border-bottom:1px solid var(--border);}
+.suggestion-item:last-child{border-bottom:none;padding-bottom:0;}
+.suggestion-item strong{color:var(--accent);}
+
+/* IMPORT */
+#s-import{padding:48px 24px 40px;gap:20px;background:radial-gradient(ellipse 80% 40% at 50% 0%,#2d0f5e55 0%,transparent 70%);}
+.import-textarea{width:100%;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:14px;color:var(--text);font-family:'DM Mono',monospace;font-size:12px;resize:none;outline:none;line-height:1.5;min-height:160px;}
+.import-textarea:focus{border-color:var(--accent);}
+.import-status{font-size:13px;padding:10px 14px;border-radius:8px;display:none;}
+.import-status.ok{background:#06423033;color:var(--green);display:block;}
+.import-status.err{background:#f8717122;color:var(--red);display:block;}
+
+/* HISTORY */
+#s-history{padding:48px 24px 40px;gap:16px;}
+</style>
+</head>
+<body>
+
+<!-- HOME -->
+<div id="s-home" class="screen active">
+  <div class="app-name">✦ Dance Fit</div>
+  <div class="home-title">Ton programme,<br><em>ta danse.</em></div>
+  <div id="noProgramBanner" class="no-program-banner" style="display:none">
+    ⚠️ Aucun programme chargé. Importe un programme pour commencer.
+  </div>
+  <div>
+    <div class="section-label">Objectif actuel</div>
+    <div class="objective-display" id="objectiveDisplay" onclick="showScreen('s-import')">
+      Charge un programme pour voir ton objectif
+    </div>
+  </div>
+  <div>
+    <div class="section-label">Séances par semaine</div>
+    <div class="config-row">
+      <div class="config-card selected" id="freq1" onclick="selectFreq(1)">
+        <div class="config-icon">1×</div>
+        <div class="config-title">Une séance</div>
+        <div class="config-sub">Programme unique</div>
+      </div>
+      <div class="config-card" id="freq2" onclick="selectFreq(2)">
+        <div class="config-icon">2×</div>
+        <div class="config-title">Deux séances</div>
+        <div class="config-sub">A + B alternées</div>
+      </div>
+    </div>
+    <div class="config-row" style="margin-top:10px">
+      <div class="config-card selected" id="locGym">
+        <div class="config-icon">🏋️</div>
+        <div class="config-title">Salle</div>
+        <div class="config-sub">Poids libres</div>
+      </div>
+      <div class="config-card disabled">
+        <div class="config-icon">🏠</div>
+        <div class="config-title">Maison</div>
+        <div class="config-sub">Poids du corps</div>
+        <div class="config-tag">Bientôt</div>
+      </div>
+    </div>
+  </div>
+  <button class="btn-cta" id="btnStart" onclick="startFlow()">Commencer ›</button>
+  <div style="display:flex;gap:10px">
+    <button class="btn-secondary" onclick="showScreen('s-import')">📥 Programme</button>
+    <button class="btn-secondary" onclick="showHistoryScreen()">📈 Historique</button>
+  </div>
+  <div class="home-footer">Programme adapté selon tes retours</div>
+</div>
+
+<!-- PICKER -->
+<div id="s-picker" class="screen">
+  <div style="padding:48px 24px 32px;gap:24px;display:flex;flex-direction:column;background:radial-gradient(ellipse 80% 40% at 50% 0%,#2d0f5e55 0%,transparent 70%);flex:1">
+    <button class="btn-back" onclick="showScreen('s-home')">← Retour</button>
+    <div>
+      <div class="section-label">Choisir ta séance</div>
+      <div style="font-size:28px;font-weight:900;letter-spacing:-.03em;line-height:1.1">Laquelle<br>aujourd'hui ?</div>
+    </div>
+    <div class="seance-card recommended" id="pickerA" onclick="launchSeance('A')">
+      <div class="seance-header">
+        <div class="seance-letter">A</div>
+        <div class="rec-badge" id="recBadgeA">Recommandée</div>
+      </div>
+      <div class="seance-name" id="pickerAName">Séance A</div>
+      <div class="seance-desc" id="pickerADesc"></div>
+      <div class="seance-chips" id="pickerAChips"></div>
+    </div>
+    <div class="seance-card" id="pickerB" onclick="launchSeance('B')">
+      <div class="seance-header">
+        <div class="seance-letter b">B</div>
+        <div class="rec-badge" id="recBadgeB" style="display:none">Recommandée</div>
+      </div>
+      <div class="seance-name" id="pickerBName">Séance B</div>
+      <div class="seance-desc" id="pickerBDesc"></div>
+      <div class="seance-chips" id="pickerBChips"></div>
+    </div>
+  </div>
+</div>
+
+<!-- WORKOUT -->
+<div id="s-workout" class="screen">
+  <div class="topbar">
+    <span class="phase-label" id="topPhase"></span>
+    <div class="progress-wrap">
+      <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill" style="width:0%"></div></div>
+      <span class="step-count" id="stepCount"></span>
+    </div>
+    <button class="btn-quit" onclick="quitWorkout()">✕</button>
+  </div>
+  <div class="workout-body" id="workoutBody"></div>
+  <div class="bottom-bar">
+    <button class="btn-main" id="btnMain" onclick="handleMain()">Continuer</button>
+    <button class="btn-skip" id="btnSkip" onclick="skipTimer()" style="display:none">Passer le repos</button>
+  </div>
+</div>
+
+<!-- RECAP -->
+<div id="s-recap" class="screen">
+  <div class="recap-header">
+    <div class="recap-emoji">🎉</div>
+    <div class="recap-title">Séance terminée !</div>
+    <div class="recap-sub" id="recapSub"></div>
+  </div>
+  <div class="section-label">Bilan</div>
+  <div class="recap-list" id="recapList"></div>
+  <div id="suggestionsBlock" style="display:none">
+    <div class="section-label">💡 Suggestions pour la prochaine fois</div>
+    <div class="suggestion-card">
+      <div class="suggestion-title">Adapations recommandées</div>
+      <div id="suggestionsList"></div>
+    </div>
+  </div>
+  <button class="btn-cta" onclick="showScreen('s-home')">Retour à l'accueil</button>
+  <button class="btn-secondary" onclick="showHistoryScreen()">📈 Historique</button>
+</div>
+
+<!-- IMPORT PROGRAMME -->
+<div id="s-import" class="screen">
+  <div style="padding:48px 24px 40px;gap:20px;display:flex;flex-direction:column;flex:1">
+    <button class="btn-back" onclick="showScreen('s-home')">← Retour</button>
+    <div>
+      <div class="section-label">Programme</div>
+      <div style="font-size:26px;font-weight:900;letter-spacing:-.03em">Importer</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:8px;line-height:1.6">Colle ici le JSON de programme fourni par Claude. Ton programme actuel sera remplacé.</div>
+    </div>
+    <div id="currentProgramInfo" style="display:none;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:14px 16px;">
+      <div style="font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Programme actuel</div>
+      <div id="currentProgramName" style="font-size:16px;font-weight:800"></div>
+      <div id="currentProgramObj" style="font-size:12px;color:var(--muted);margin-top:4px"></div>
+    </div>
+    <textarea class="import-textarea" id="importJson" placeholder='Colle le JSON ici…'></textarea>
+    <div class="import-status" id="importStatus"></div>
+    <button class="btn-cta" onclick="importProgram()">Importer ce programme</button>
+    <button class="btn-secondary" onclick="loadDefaultProgram()">Charger le programme par défaut</button>
+  </div>
+</div>
+
+<!-- HISTORY -->
+<div id="s-history" class="screen">
+  <div style="padding:48px 24px 40px;gap:16px;display:flex;flex-direction:column;flex:1">
+    <button class="btn-back" onclick="showScreen('s-home')">← Retour</button>
+    <div style="font-size:26px;font-weight:900;letter-spacing:-.03em">Historique</div>
+    <div id="historyList" style="display:flex;flex-direction:column;gap:10px"></div>
+    <button class="btn-secondary" onclick="showScreen('s-home')">Retour à l'accueil</button>
+  </div>
+</div>
+
+<script>
+// ── STATE ──
+let program = null; // loaded from localStorage
+let state = {
+  freq:1, currentSeance:'A',
+  steps:[], stepIndex:0, feedbacks:{},
+  restInterval:null, restLeft:0, isPaused:false,
+  manualInterval:null, manualLeft:0, manualRunning:false,
+};
+
+// ── PROGRAM: switched exercises override per user ──
+function getStepsForSeance(type) {
+  if (!program) return [];
+  const seance = program.seances[type];
+  if (!seance) return [];
+  const switches = JSON.parse(localStorage.getItem('df_switches') || '{}');
+  return seance.steps.map(step => {
+    if (step.hasFeedback && switches[step.name]) {
+      const alt = switches[step.name];
+      return { ...step, name: alt, chips: step.chips, defaultWeight: Math.max(0, (step.defaultWeight||0) - 1), defaultReps: step.defaultReps, alternatives: step.alternatives };
+    }
+    return step;
+  });
+}
+
+// ── NAV ──
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+function selectFreq(n) {
+  state.freq = n;
+  ['freq1','freq2'].forEach(id => document.getElementById(id).classList.remove('selected'));
+  document.getElementById('freq'+n).classList.add('selected');
+  localStorage.setItem('df_freq', n);
+}
+
+// ── PROGRAM LOAD ──
+function loadProgram() {
+  const raw = localStorage.getItem('df_program');
+  if (raw) {
+    try { program = JSON.parse(raw); } catch(e) { program = null; }
+  }
+  updateHomeUI();
+}
+
+function updateHomeUI() {
+  const banner = document.getElementById('noProgramBanner');
+  const obj = document.getElementById('objectiveDisplay');
+  const btn = document.getElementById('btnStart');
+  if (!program) {
+    banner.style.display = 'block';
+    obj.textContent = 'Charge un programme pour voir ton objectif';
+    btn.disabled = true;
+    btn.style.opacity = '0.4';
+  } else {
+    banner.style.display = 'none';
+    obj.textContent = program.objective || program.name;
+    btn.disabled = false;
+    btn.style.opacity = '1';
+  }
+  // Update picker
+  if (program) {
+    ['A','B'].forEach(t => {
+      const s = program.seances[t];
+      if (!s) return;
+      document.getElementById('picker'+t+'Name').textContent = s.name;
+      document.getElementById('picker'+t+'Desc').textContent = s.desc;
+      document.getElementById('picker'+t+'Chips').innerHTML = (s.chips||[]).map(c=>`<div class="chip">${c}</div>`).join('');
+    });
+  }
+  // Import screen current program
+  const info = document.getElementById('currentProgramInfo');
+  if (program) {
+    info.style.display = 'block';
+    document.getElementById('currentProgramName').textContent = program.name;
+    document.getElementById('currentProgramObj').textContent = program.objective || '';
+  } else {
+    info.style.display = 'none';
+  }
+}
+
+function importProgram() {
+  const raw = document.getElementById('importJson').value.trim();
+  const status = document.getElementById('importStatus');
+  try {
+    const parsed = JSON.parse(raw);
+    if (!parsed.seances) throw new Error('Format invalide — champ "seances" manquant');
+    localStorage.setItem('df_program', JSON.stringify(parsed));
+    program = parsed;
+    status.className = 'import-status ok';
+    status.textContent = '✓ Programme "' + (parsed.name||'Sans nom') + '" chargé avec succès.';
+    updateHomeUI();
+    setTimeout(() => showScreen('s-home'), 1200);
+  } catch(e) {
+    status.className = 'import-status err';
+    status.textContent = '✗ JSON invalide : ' + e.message;
+  }
+}
+
+function loadDefaultProgram() {
+  fetch('./program-default.json')
+    .then(r => r.json())
+    .then(data => {
+      localStorage.setItem('df_program', JSON.stringify(data));
+      program = data;
+      updateHomeUI();
+      const status = document.getElementById('importStatus');
+      status.className = 'import-status ok';
+      status.textContent = '✓ Programme par défaut chargé.';
+      setTimeout(() => showScreen('s-home'), 1000);
+    })
+    .catch(() => {
+      // Fallback: inline default
+      const status = document.getElementById('importStatus');
+      status.className = 'import-status err';
+      status.textContent = '✗ Impossible de charger le programme par défaut. Colle le JSON manuellement.';
+    });
+}
+
+// ── START ──
+function startFlow() {
+  if (!program) return;
+  localStorage.setItem('df_freq', state.freq);
+  if (state.freq === 1) launchSeance('A');
+  else { updatePickerRec(); showScreen('s-picker'); }
+}
+
+function updatePickerRec() {
+  const h = JSON.parse(localStorage.getItem('df_history')||'[]');
+  const last = h.length ? h[h.length-1].seance : null;
+  const rec = last === 'A' ? 'B' : 'A';
+  document.getElementById('pickerA').classList.toggle('recommended', rec==='A');
+  document.getElementById('pickerB').classList.toggle('recommended', rec==='B');
+  document.getElementById('recBadgeA').style.display = rec==='A' ? '' : 'none';
+  document.getElementById('recBadgeB').style.display = rec==='B' ? '' : 'none';
+}
+
+function launchSeance(type) {
+  state.currentSeance = type;
+  state.steps = getStepsForSeance(type);
+  state.stepIndex = 0;
+  state.feedbacks = {};
+  clearRestTimer(); clearManualTimer();
+  showScreen('s-workout');
+  renderStep();
+}
+
+// ── RENDER ──
+function renderStep() {
+  const step = state.steps[state.stepIndex];
+  const pct = Math.round((state.stepIndex / state.steps.length) * 100);
+  document.getElementById('progressFill').style.width = pct+'%';
+  document.getElementById('stepCount').textContent = (state.stepIndex+1)+'/'+state.steps.length;
+  document.getElementById('topPhase').textContent = step.phase;
+  const body = document.getElementById('workoutBody');
+  const btnMain = document.getElementById('btnMain');
+  const btnSkip = document.getElementById('btnSkip');
+  btnMain.className = 'btn-main';
+  btnSkip.style.display = 'none';
+  state.isPaused = false;
+  clearManualTimer();
+
+  if (step.type === 'rest') {
+    state.restLeft = step.duration;
+    btnMain.className = 'btn-main rest-mode';
+    btnMain.textContent = '⏸ Pause';
+    btnSkip.style.display = 'block';
+    body.innerHTML = `
+      <div class="phase-badge"><div class="phase-dot" style="background:var(--green)"></div>${step.phase}</div>
+      <div class="rest-card">
+        <div style="font-size:20px;font-weight:800">Repos</div>
+        <div class="timer-card">
+          <div class="timer-label">⏱ Récupération</div>
+          <div class="timer-display" id="timerDisplay">${formatTime(state.restLeft)}</div>
+          <div class="timer-sub">Respire, hydrate-toi</div>
+        </div>
+      </div>`;
+    startRestTimer();
+  } else {
+    clearRestTimer();
+    const isLast = state.stepIndex === state.steps.length-1;
+    btnMain.textContent = isLast ? 'Terminer ✓' : (step.hasFeedback ? 'Valider ✓' : 'Continuer →');
+    const saved = state.feedbacks[state.stepIndex] || {};
+    const lastVals = getLastSessionValues(step.name);
+    const nameParts = step.name.split('\n');
+    body.innerHTML = `
+      <div class="phase-badge"><div class="phase-dot"></div>${step.phase}</div>
+      <div class="exercise-name">${nameParts.join('<br>')}</div>
+      <div class="exercise-chips">${step.chips.map((c,i)=>`<div class="chip${i===0?' accent':''}">${c}</div>`).join('')}</div>
+      <div class="tip-box"><div class="tip-label">💡 Conseil</div>${step.tip}</div>
+      ${step.isTimed ? renderManualTimer(step) : ''}
+      ${step.hasFeedback ? renderFeedback(step, saved, lastVals) : ''}`;
+    if (step.hasFeedback) initFeedbackState(step, saved, lastVals);
+  }
+}
+
+function getLastSessionValues(name) {
+  const h = JSON.parse(localStorage.getItem('df_history')||'[]');
+  for (let i = h.length-1; i >= 0; i--) {
+    const s = h[i];
+    const idx = s.steps ? s.steps.findIndex(x => x.name === name) : -1;
+    if (idx >= 0 && s.feedbacks && s.feedbacks[idx]) return s.feedbacks[idx];
+  }
+  return null;
+}
+
+function renderManualTimer(step) {
+  const sec = step.timedSec || 30;
+  return `<div class="manual-timer">
+    <div>
+      <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Timer</div>
+      <div class="manual-timer-display" id="manualDisplay">${formatTime(sec)}</div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="timer-btn start" id="manualBtn" onclick="toggleManualTimer(${sec})">▶ Lancer</button>
+      <button class="timer-btn reset" onclick="resetManualTimer(${sec})">↺</button>
+    </div>
+  </div>`;
+}
+
+function renderFeedback(step, saved, lastVals) {
+  const wVal = saved.weight !== undefined ? saved.weight : (lastVals?.weight !== undefined ? lastVals.weight : (step.defaultWeight||0));
+  const rVal = saved.reps !== undefined ? saved.reps : (lastVals?.reps !== undefined ? lastVals.reps : (step.defaultReps||0));
+  const wRef = lastVals?.weight !== undefined ? lastVals.weight : step.defaultWeight;
+  const rRef = lastVals?.reps !== undefined ? lastVals.reps : step.defaultReps;
+  const wRefLabel = wRef > 0 ? (lastVals ? `Dernière: ${wRef} kg` : `Prévu: ${wRef} kg`) : 'Poids du corps';
+  const rRefLabel = rRef ? (lastVals ? `Dernière: ${rRef}` : `Prévu: ${rRef}`) : '';
+  const diff = saved.diff || '';
+  return `<div class="feedback-card">
+    <div class="fb-section-title">📊 Ton retour</div>
+    <div class="stepper-row">
+      <div class="stepper-block">
+        <div class="stepper-label">Poids</div>
+        <div class="stepper-controls">
+          <button class="stepper-btn" onclick="adjustVal('weight',-0.5)">−</button>
+          <div class="stepper-val" id="val-weight">${wVal}</div>
+          <button class="stepper-btn" onclick="adjustVal('weight',0.5)">+</button>
+        </div>
+        <div class="stepper-unit">kg</div>
+        <div class="stepper-ref" id="ref-weight">${wRefLabel}</div>
+      </div>
+      ${step.defaultReps ? `<div class="stepper-block">
+        <div class="stepper-label">Reps</div>
+        <div class="stepper-controls">
+          <button class="stepper-btn" onclick="adjustVal('reps',-1)">−</button>
+          <div class="stepper-val" id="val-reps">${rVal}</div>
+          <button class="stepper-btn" onclick="adjustVal('reps',1)">+</button>
+        </div>
+        <div class="stepper-unit">reps</div>
+        <div class="stepper-ref" id="ref-reps">${rRefLabel}</div>
+      </div>` : ''}
+    </div>
+    <div>
+      <div style="font-size:10px;font-weight:700;color:var(--muted);margin-bottom:7px;letter-spacing:.05em">DIFFICULTÉ</div>
+      <div class="diff-row">
+        <button class="diff-btn ${diff==='easy'?'selected-easy':''}" id="diff-easy" onclick="selectDiff('easy')">😌<br>Facile</button>
+        <button class="diff-btn ${diff==='ok'?'selected-ok':''}" id="diff-ok" onclick="selectDiff('ok')">💪<br>Ok</button>
+        <button class="diff-btn ${diff==='hard'?'selected-hard':''}" id="diff-hard" onclick="selectDiff('hard')">🥵<br>Dur</button>
+        <button class="diff-btn ${diff==='switch'?'selected-switch':''}" id="diff-switch" onclick="selectDiff('switch')">🔄<br>Switch</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function initFeedbackState(step, saved, lastVals) {
+  if (!state.feedbacks[state.stepIndex]) {
+    state.feedbacks[state.stepIndex] = {
+      weight: saved.weight !== undefined ? saved.weight : (lastVals?.weight !== undefined ? lastVals.weight : (step.defaultWeight||0)),
+      reps: saved.reps !== undefined ? saved.reps : (lastVals?.reps !== undefined ? lastVals.reps : (step.defaultReps||0)),
+      diff: saved.diff || ''
+    };
+  }
+}
+
+function adjustVal(field, delta) {
+  if (!state.feedbacks[state.stepIndex]) state.feedbacks[state.stepIndex] = {};
+  const fb = state.feedbacks[state.stepIndex];
+  const step = state.steps[state.stepIndex];
+  const lastVals = getLastSessionValues(step.name);
+  let cur = fb[field] !== undefined ? fb[field] : (field==='weight' ? (lastVals?.weight||step.defaultWeight||0) : (lastVals?.reps||step.defaultReps||0));
+  cur = Math.max(0, parseFloat((cur + delta).toFixed(1)));
+  fb[field] = cur;
+  const el = document.getElementById('val-'+field);
+  if (el) el.textContent = cur;
+  updateRefColor(field, cur, lastVals, step);
+}
+
+function updateRefColor(field, cur, lastVals, step) {
+  const el = document.getElementById('ref-'+field);
+  if (!el) return;
+  const ref = field==='weight' ? (lastVals?.weight||step.defaultWeight||0) : (lastVals?.reps||step.defaultReps||0);
+  if (!ref) return;
+  el.className = 'stepper-ref' + (cur > ref ? ' better' : cur < ref ? ' worse' : '');
+}
+
+function selectDiff(val) {
+  if (!state.feedbacks[state.stepIndex]) state.feedbacks[state.stepIndex] = {};
+  state.feedbacks[state.stepIndex].diff = val;
+  ['easy','ok','hard','switch'].forEach(d => {
+    const btn = document.getElementById('diff-'+d);
+    if (btn) btn.className = 'diff-btn' + (d===val ? ' selected-'+d : '');
+  });
+}
+
+// ── MANUAL TIMER ──
+function toggleManualTimer(totalSec) {
+  if (state.manualRunning) {
+    clearManualTimer();
+    const btn = document.getElementById('manualBtn');
+    if (btn) { btn.textContent = '▶ Lancer'; btn.className = 'timer-btn start'; }
+    const el = document.getElementById('manualDisplay');
+    if (el) el.className = 'manual-timer-display';
+  } else {
+    if (state.manualLeft <= 0) state.manualLeft = totalSec;
+    state.manualRunning = true;
+    const btn = document.getElementById('manualBtn');
+    if (btn) { btn.textContent = '⏸ Pause'; btn.className = 'timer-btn pause'; }
+    const el = document.getElementById('manualDisplay');
+    if (el) el.className = 'manual-timer-display running';
+    state.manualInterval = setInterval(() => {
+      state.manualLeft--;
+      const d = document.getElementById('manualDisplay');
+      if (d) d.textContent = formatTime(state.manualLeft);
+      if (state.manualLeft <= 0) {
+        clearManualTimer();
+        const d2 = document.getElementById('manualDisplay');
+        if (d2) { d2.textContent = '✓ Done'; d2.className = 'manual-timer-display done'; }
+        const b = document.getElementById('manualBtn');
+        if (b) { b.textContent = '▶ Relancer'; b.className = 'timer-btn start'; }
+      }
+    }, 1000);
+  }
+}
+function resetManualTimer(totalSec) {
+  clearManualTimer();
+  state.manualLeft = totalSec;
+  const el = document.getElementById('manualDisplay');
+  if (el) { el.textContent = formatTime(totalSec); el.className = 'manual-timer-display'; }
+  const btn = document.getElementById('manualBtn');
+  if (btn) { btn.textContent = '▶ Lancer'; btn.className = 'timer-btn start'; }
+}
+function clearManualTimer() {
+  if (state.manualInterval) { clearInterval(state.manualInterval); state.manualInterval = null; }
+  state.manualRunning = false;
+}
+
+// ── REST TIMER ──
+function startRestTimer() {
+  clearRestTimer();
+  state.restInterval = setInterval(() => {
+    if (!state.isPaused) {
+      state.restLeft--;
+      const el = document.getElementById('timerDisplay');
+      if (el) el.textContent = formatTime(state.restLeft);
+      if (state.restLeft <= 0) { clearRestTimer(); setTimeout(advance, 400); }
+    }
+  }, 1000);
+}
+function clearRestTimer() { if (state.restInterval) { clearInterval(state.restInterval); state.restInterval = null; } }
+function skipTimer() { clearRestTimer(); advance(); }
+function formatTime(s) { return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); }
+
+function handleMain() {
+  const step = state.steps[state.stepIndex];
+  if (step.type === 'rest') {
+    state.isPaused = !state.isPaused;
+    document.getElementById('btnMain').textContent = state.isPaused ? '▶ Reprendre' : '⏸ Pause';
+    return;
+  }
+  advance();
+}
+function advance() {
+  state.stepIndex++;
+  if (state.stepIndex >= state.steps.length) showRecap();
+  else renderStep();
+}
+function quitWorkout() { clearRestTimer(); clearManualTimer(); showScreen('s-home'); }
+
+// ── RECAP + SUGGESTIONS ──
+function showRecap() {
+  clearRestTimer(); clearManualTimer();
+  const date = new Date().toLocaleDateString('fr-CH',{day:'numeric',month:'long'});
+  document.getElementById('recapSub').textContent = 'Séance '+state.currentSeance+' · '+date;
+
+  const exSteps = state.steps.filter(s => s.type==='exercise' && s.hasFeedback);
+  const dL = {easy:'Facile',ok:'Ok',hard:'Dur',switch:'Switch','':'–'};
+  const dE = {easy:'😌',ok:'💪',hard:'🥵',switch:'🔄','':'–'};
+
+  document.getElementById('recapList').innerHTML = exSteps.map(step => {
+    const idx = state.steps.indexOf(step);
+    const fb = state.feedbacks[idx] || {};
+    const diff = fb.diff || '';
+    const w = (fb.weight && fb.weight > 0) ? fb.weight+' kg' : (step.defaultWeight ? step.defaultWeight+' kg' : 'Poids du corps');
+    const r = fb.reps ? fb.reps+' reps' : (step.defaultReps ? step.defaultReps+' reps' : '');
+    return `<div class="recap-item ${diff}">
+      <div class="recap-name">${step.name.replace('\n',' ')}</div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px">
+        <div class="recap-details">${w}${r?' · '+r:''}</div>
+        <div class="recap-diff-badge ${diff}">${dE[diff]} ${dL[diff]}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Save history
+  const h = JSON.parse(localStorage.getItem('df_history')||'[]');
+  const sessionEntry = {
+    date: new Date().toISOString(),
+    seance: state.currentSeance,
+    feedbacks: Object.fromEntries(Object.entries(state.feedbacks).map(([k,v])=>[k,{...v}])),
+    steps: exSteps.map(s=>({name:s.name,defaultWeight:s.defaultWeight,defaultReps:s.defaultReps,maxWeight:s.maxWeight,alternatives:s.alternatives}))
+  };
+  h.push(sessionEntry);
+  localStorage.setItem('df_history', JSON.stringify(h));
+
+  // Generate suggestions
+  generateSuggestions(exSteps, sessionEntry, h);
+
+  showScreen('s-recap');
+}
+
+function generateSuggestions(exSteps, sessionEntry, history) {
+  const suggestions = [];
+  const switchesToApply = JSON.parse(localStorage.getItem('df_switches')||'{}');
+
+  exSteps.forEach((step, i) => {
+    const idx = state.steps.indexOf(step);
+    const fb = state.feedbacks[idx] || {};
+    const diff = fb.diff || '';
+
+    // Get last 2 sessions for this exercise
+    const prev = history.slice(0, -1); // exclude current
+    const prevEntries = prev.map(s => {
+      const si = s.steps ? s.steps.findIndex(x => x.name === step.name) : -1;
+      return si >= 0 ? { fb: s.feedbacks[si], step: s.steps[si] } : null;
+    }).filter(Boolean).slice(-2);
+
+    const lastDiff = prevEntries.length ? prevEntries[prevEntries.length-1]?.fb?.diff : null;
+    const curWeight = fb.weight || 0;
+    const maxW = step.maxWeight || 0;
+
+    // SWITCH → propose alternative
+    if (diff === 'switch') {
+      const alts = step.alternatives || [];
+      if (alts.length) {
+        const alt = alts[0];
+        switchesToApply[step.name] = alt;
+        suggestions.push(`<div class="suggestion-item">🔄 <strong>${step.name.replace('\n',' ')}</strong> → remplacé par <strong>${alt}</strong> à la prochaine séance.</div>`);
+      }
+    }
+
+    // 2× EASY + poids max atteint → variante difficile
+    else if (diff === 'easy' && lastDiff === 'easy' && maxW > 0 && curWeight >= maxW) {
+      const alts = step.alternatives || [];
+      if (alts.length > 1) {
+        const hardAlt = alts[alts.length-1];
+        suggestions.push(`<div class="suggestion-item">⬆️ <strong>${step.name.replace('\n',' ')}</strong> → tu as atteint le max. Essaie <strong>${hardAlt}</strong> la prochaine fois.</div>`);
+      }
+    }
+
+    // 2× EASY → +0.5 kg ou +1 rep
+    else if (diff === 'easy' && lastDiff === 'easy') {
+      if (step.defaultWeight > 0) {
+        suggestions.push(`<div class="suggestion-item">📈 <strong>${step.name.replace('\n',' ')}</strong> → essaie <strong>+0.5 kg</strong> la prochaine fois (${(curWeight+0.5)} kg).</div>`);
+      } else if (step.defaultReps) {
+        suggestions.push(`<div class="suggestion-item">📈 <strong>${step.name.replace('\n',' ')}</strong> → essaie <strong>+1 rep</strong> la prochaine fois.</div>`);
+      }
+    }
+
+    // 2× HARD → -0.5 kg
+    else if (diff === 'hard' && lastDiff === 'hard' && curWeight > 0.5) {
+      suggestions.push(`<div class="suggestion-item">📉 <strong>${step.name.replace('\n',' ')}</strong> → réduis à <strong>${Math.max(0, curWeight-0.5)} kg</strong> la prochaine fois.</div>`);
+    }
+  });
+
+  // Save switch overrides
+  localStorage.setItem('df_switches', JSON.stringify(switchesToApply));
+
+  const block = document.getElementById('suggestionsBlock');
+  const list = document.getElementById('suggestionsList');
+  if (suggestions.length) {
+    block.style.display = 'block';
+    list.innerHTML = suggestions.join('');
+  } else {
+    block.style.display = 'none';
+  }
+}
+
+// ── HISTORY ──
+function showHistoryScreen() {
+  const h = JSON.parse(localStorage.getItem('df_history')||'[]');
+  const list = document.getElementById('historyList');
+  const dE = {easy:'😌',ok:'💪',hard:'🥵',switch:'🔄'};
+  if (!h.length) {
+    list.innerHTML = '<div style="color:var(--muted);font-size:14px;text-align:center">Aucune séance enregistrée.</div>';
+  } else {
+    list.innerHTML = [...h].reverse().map(session => {
+      const d = new Date(session.date).toLocaleDateString('fr-CH',{day:'numeric',month:'long',year:'numeric'});
+      const counts = {easy:0,ok:0,hard:0,switch:0};
+      Object.values(session.feedbacks||{}).forEach(fb => { if(fb.diff && counts[fb.diff]!==undefined) counts[fb.diff]++; });
+      const badges = Object.entries(counts).filter(([,v])=>v>0).map(([k,v])=>`<span style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;background:var(--border);color:var(--muted)">${dE[k]} ×${v}</span>`).join('');
+      return `<div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:14px 16px;display:flex;flex-direction:column;gap:6px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div style="font-size:15px;font-weight:800">Séance ${session.seance}</div>
+          <div style="font-size:11px;color:var(--muted)">${d}</div>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">${badges}</div>
+      </div>`;
+    }).join('');
+  }
+  showScreen('s-history');
+}
+
+// ── INIT ──
+window.addEventListener('load', () => {
+  loadProgram();
+  const savedFreq = parseInt(localStorage.getItem('df_freq')||'1');
+  selectFreq(savedFreq);
+});
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  });
+}
+</script>
+</body>
+</html>
