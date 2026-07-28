@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Dance Fit">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="theme-color" content="#0d0d10">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Dance Fit</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,900&family=DM+Mono:wght@400;500&display=swap');
+  :root {
+    --bg:#0d0d10;--surface:#16161c;--border:#222228;
+    --accent:#e879f9;--accent2:#7c3aed;
+    --green:#34d399;--orange:#fb923c;--red:#f87171;
+    --text:#f0eef5;--muted:#64617a;--r:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;max-width:430px;margin:0 auto;overflow-x:hidden;}
+  .screen{display:none;min-height:100vh;flex-direction:column;}
+  .screen.active{display:flex;}
+
+  /* SHARED */
+  .btn-back{background:none;border:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;padding:0;display:flex;align-items:center;gap:6px;}
+  .section-label{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+  .btn-cta{width:100%;padding:18px;border-radius:var(--r);border:none;background:linear-gradient(135deg,var(--accent2),var(--accent));color:#fff;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:transform .15s;}
+  .btn-cta:active{transform:scale(.97);}
+  .btn-secondary{width:100%;padding:16px;border-radius:var(--r);border:1.5px solid var(--border);background:transparent;color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;}
+  .chip{font-size:11px;font-weight:600;background:var(--border);border-radius:6px;padding:4px 10px;color:var(--muted);}
+  .chip.accent{border:1px solid var(--accent);color:var(--accent);background:#2d0f5e33;}
+
+  /* HOME */
+  #s-home{padding:48px 24px 40px;gap:28px;background:radial-gradient(ellipse 80% 40% at 50% 0%,#2d0f5e55 0%,transparent 70%);}
+  .app-name{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);}
+  .home-title{font-size:38px;font-weight:900;line-height:1.05;letter-spacing:-.03em;margin-top:6px;}
+  .home-title em{font-style:normal;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .objective-field{width:100%;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:14px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;resize:none;outline:none;transition:border-color .2s;line-height:1.5;}
+  .objective-field:focus{border-color:var(--accent);}
+  .config-grid{display:flex;flex-direction:column;gap:10px;}
+  .config-row{display:flex;gap:10px;}
+  .config-card{flex:1;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:16px 12px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;transition:border-color .2s,background .2s;user-select:none;}
+  .config-card.selected{border-color:var(--accent);background:#2d0f5e33;}
+  .config-card.disabled{opacity:.35;cursor:not-allowed;}
+  .config-icon{font-size:24px;font-weight:900;color:var(--accent);}
+  .config-title{font-size:13px;font-weight:700;text-align:center;}
+  .config-sub{font-size:11px;color:var(--muted);text-align:center;line-height:1.4;}
+  .config-tag{font-size:10px;font-weight:700;color:var(--orange);background:#fb923c22;border-radius:20px;padding:2px 8px;}
+  .home-footer{font-size:12px;color:var(--muted);text-align:center;line-height:1.6;}
+
+  /* PICKER */
+  #s-picker{padding:48px 24px 32px;gap:24px;background:radial-gradient(ellipse 80% 40% at 50% 0%,#2d0f5e55 0%,transparent 70%);}
+  .picker-title{font-size:28px;font-weight:900;letter-spacing:-.03em;line-height:1.1;}
+  .seance-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;gap:10px;cursor:pointer;transition:border-color .2s,transform .15s;}
+  .seance-card:active{transform:scale(.98);}
+  .seance-card.recommended{border-color:var(--accent);}
+  .seance-header{display:flex;align-items:center;justify-content:space-between;}
+  .seance-letter{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--accent2),var(--accent));display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:#fff;}
+  .seance-letter.b{background:linear-gradient(135deg,#065f46,#34d399);}
+  .rec-badge{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);background:#2d0f5e44;border:1px solid var(--accent);border-radius:20px;padding:3px 10px;}
+  .seance-name{font-size:20px;font-weight:800;letter-spacing:-.02em;}
+  .seance-desc{font-size:13px;color:var(--muted);line-height:1.5;}
+  .seance-chips{display:flex;gap:8px;flex-wrap:wrap;}
+
+  /* WORKOUT — full screen no scroll */
+  #s-workout{padding:0;height:100vh;overflow:hidden;}
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 20px 10px;background:var(--bg);border-bottom:1px solid var(--border);flex-shrink:0;}
+  .phase-label{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);}
+  .progress-wrap{display:flex;align-items:center;gap:10px;flex:1;margin:0 12px;}
+  .progress-bar-bg{flex:1;height:3px;background:var(--border);border-radius:4px;overflow:hidden;}
+  .progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:4px;transition:width .4s ease;}
+  .step-count{font-size:11px;font-weight:600;color:var(--muted);white-space:nowrap;}
+  .btn-quit{font-size:12px;font-weight:600;color:var(--muted);background:none;border:none;cursor:pointer;padding:4px 8px;}
+
+  /* Main area fills remaining height */
+  .workout-body{flex:1;display:flex;flex-direction:column;padding:16px 20px 0;gap:12px;min-height:0;}
+
+  .phase-badge{display:inline-flex;align-items:center;gap:6px;background:#1e1e2e;border:1px solid var(--border);border-radius:40px;padding:5px 12px;font-size:11px;font-weight:600;color:var(--muted);align-self:flex-start;flex-shrink:0;}
+  .phase-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);}
+  .exercise-name{font-size:clamp(22px,6vw,30px);font-weight:900;line-height:1.1;letter-spacing:-.02em;flex-shrink:0;}
+  .exercise-chips{display:flex;gap:8px;flex-wrap:wrap;flex-shrink:0;}
+
+  .tip-box{background:#16162a;border-left:3px solid var(--accent2);border-radius:0 10px 10px 0;padding:11px 14px;font-size:12px;line-height:1.55;color:#c4c0d8;flex-shrink:0;}
+  .tip-label{font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent2);margin-bottom:3px;}
+
+  /* FEEDBACK CARD — compact redesign */
+  .feedback-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:14px 16px;display:flex;flex-direction:column;gap:12px;flex-shrink:0;}
+  .fb-section-title{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);}
+
+  /* Stepper row — poids & reps côte à côte */
+  .stepper-row{display:flex;gap:10px;}
+  .stepper-block{flex:1;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 8px;}
+  .stepper-label{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;}
+  .stepper-controls{display:flex;align-items:center;gap:6px;}
+  .stepper-btn{width:32px;height:32px;border-radius:8px;border:1.5px solid var(--border);background:var(--surface);color:var(--text);font-size:18px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .15s,background .15s;line-height:1;padding:0;}
+  .stepper-btn:active{background:var(--border);}
+  .stepper-val{font-size:20px;font-weight:900;min-width:48px;text-align:center;font-variant-numeric:tabular-nums;}
+  .stepper-unit{font-size:11px;color:var(--muted);font-weight:600;}
+  .stepper-ref{font-size:10px;color:var(--muted);margin-top:1px;}
+  .stepper-ref.better{color:var(--green);}
+  .stepper-ref.worse{color:var(--orange);}
+
+  /* Diff buttons */
+  .diff-row{display:flex;gap:6px;}
+  .diff-btn{flex:1;padding:9px 4px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .15s;text-align:center;line-height:1.3;}
+  .diff-btn.selected-easy{border-color:var(--green);background:#06423033;color:var(--green);}
+  .diff-btn.selected-ok{border-color:var(--accent);background:#2d0f5e33;color:var(--accent);}
+  .diff-btn.selected-hard{border-color:var(--orange);background:#fb923c22;color:var(--orange);}
+  .diff-btn.selected-skip{border-color:var(--red);background:#f8717122;color:var(--red);}
+
+  /* Manual timer for timed exercises */
+  .manual-timer{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-shrink:0;}
+  .manual-timer-display{font-size:36px;font-weight:900;font-family:'DM Mono',monospace;color:var(--green);letter-spacing:-.02em;font-variant-numeric:tabular-nums;}
+  .manual-timer-display.running{color:var(--accent);}
+  .manual-timer-display.done{color:var(--green);}
+  .timer-btn{padding:10px 18px;border-radius:10px;border:none;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:transform .15s;}
+  .timer-btn:active{transform:scale(.96);}
+  .timer-btn.start{background:linear-gradient(135deg,#065f46,#34d399);color:#fff;}
+  .timer-btn.pause{background:var(--border);color:var(--text);}
+  .timer-btn.reset{background:transparent;border:1.5px solid var(--border);color:var(--muted);font-size:12px;padding:8px 12px;}
+
+  /* Rest timer */
+  .rest-card{display:flex;flex-direction:column;align-items:center;gap:16px;flex:1;justify-content:center;}
+  .timer-card{background:var(--surface);border-radius:var(--r);padding:28px 20px;display:flex;flex-direction:column;align-items:center;gap:16px;border:1px solid var(--border);width:100%;}
+  .timer-label{font-size:12px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--green);}
+  .timer-display{font-size:72px;font-weight:900;letter-spacing:-.04em;color:var(--green);line-height:1;font-variant-numeric:tabular-nums;font-family:'DM Mono',monospace;}
+  .timer-sub{font-size:13px;color:var(--muted);}
+
+  /* Bottom bar */
+  .bottom-bar{padding:12px 20px 28px;background:linear-gradient(to top,var(--bg) 60%,transparent);flex-shrink:0;display:flex;flex-direction:column;gap:8px;align-items:center;}
+  .btn-main{width:100%;padding:16px;border-radius:var(--r);border:none;background:linear-gradient(135deg,var(--accent2),var(--accent));color:#fff;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:transform .15s;}
+  .btn-main:active{transform:scale(.97);}
+  .btn-main.rest-mode{background:linear-gradient(135deg,#065f46,#34d399);}
+  .btn-skip{font-size:13px;color:var(--muted);background:none;border:none;cursor:pointer;padding:4px;}
+
+  /* RECAP */
+  #s-recap{padding:40px 24px;gap:20px;background:radial-gradient(ellipse 80% 40% at 50% 50%,#1a0b4055 0%,transparent 70%);}
+  .recap-header{text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px;}
+  .recap-emoji{font-size:48px;}
+  .recap-title{font-size:28px;font-weight:900;letter-spacing:-.03em;}
+  .recap-sub{font-size:14px;color:var(--muted);}
+  .recap-list{display:flex;flex-direction:column;gap:8px;}
+  .recap-item{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+  .recap-item.easy{border-left:3px solid var(--green);}
+  .recap-item.ok{border-left:3px solid var(--accent);}
+  .recap-item.hard{border-left:3px solid var(--orange);}
+  .recap-item.skip{border-left:3px solid var(--red);}
+  .recap-name{font-size:13px;font-weight:700;flex:1;}
+  .recap-details{font-size:12px;color:var(--muted);text-align:right;line-height:1.5;}
+  .recap-diff-badge{font-size:11px;font-weight:700;padding:3px 8px;border-radius:20px;margin-top:3px;}
+  .recap-diff-badge.easy{color:var(--green);background:#06423033;}
+  .recap-diff-badge.ok{color:var(--accent);background:#2d0f5e33;}
+  .recap-diff-badge.hard{color:var(--orange);background:#fb923c22;}
+  .recap-diff-badge.skip{color:var(--red);background:#f8717122;}
+
+  /* HISTORY */
+  #s-history{padding:48px 24px 40px;gap:20px;}
+</style>
+</head>
+<body>
+
+<!-- HOME -->
+<div id="s-home" class="screen active">
+  <div class="app-name">✦ Dance Fit</div>
+  <div class="home-title">Ton programme,<br><em>ta danse.</em></div>
+  <div>
+    <div class="section-label">Ton objectif</div>
+    <textarea class="objective-field" id="objectiveInput" rows="2" placeholder="Ex: Renforcement pour la danse…">Renforcement musculaire pour améliorer ma danse (hip-hop, heels) — jambes, gainage, chevilles.</textarea>
+  </div>
+  <div class="config-grid">
+    <div class="section-label">Séances par semaine (en plus des cours)</div>
+    <div class="config-row">
+      <div class="config-card selected" id="freq1" onclick="selectFreq(1)">
+        <div class="config-icon">1×</div>
+        <div class="config-title">Une séance</div>
+        <div class="config-sub">Programme unique qui évolue</div>
+      </div>
+      <div class="config-card" id="freq2" onclick="selectFreq(2)">
+        <div class="config-icon">2×</div>
+        <div class="config-title">Deux séances</div>
+        <div class="config-sub">Séance A + B alternées</div>
+      </div>
+    </div>
+    <div class="section-label" style="margin-top:8px">Lieu</div>
+    <div class="config-row">
+      <div class="config-card selected" id="locGym" onclick="selectLoc('gym')">
+        <div class="config-icon">🏋️</div>
+        <div class="config-title">Salle</div>
+        <div class="config-sub">Poids libres</div>
+      </div>
+      <div class="config-card disabled">
+        <div class="config-icon">🏠</div>
+        <div class="config-title">Maison</div>
+        <div class="config-sub">Poids du corps</div>
+        <div class="config-tag">Bientôt</div>
+      </div>
+    </div>
+  </div>
+  <button class="btn-cta" onclick="startFlow()">Commencer ›</button>
+  <div class="home-footer">Programme adapté à chaque séance selon tes retours</div>
+</div>
+
+<!-- PICKER -->
+<div id="s-picker" class="screen">
+  <div style="padding:48px 24px 32px;gap:24px;display:flex;flex-direction:column;background:radial-gradient(ellipse 80% 40% at 50% 0%,#2d0f5e55 0%,transparent 70%);flex:1">
+    <button class="btn-back" onclick="showScreen('s-home')">← Retour</button>
+    <div>
+      <div class="section-label">Choisir ta séance</div>
+      <div class="picker-title" style="font-size:28px;font-weight:900;letter-spacing:-.03em;line-height:1.1">Laquelle<br>aujourd'hui ?</div>
+    </div>
+    <div class="seance-card recommended" id="pickerA" onclick="launchSeance('A')">
+      <div class="seance-header">
+        <div class="seance-letter">A</div>
+        <div class="rec-badge" id="recBadgeA">Recommandée</div>
+      </div>
+      <div class="seance-name">Jambes & Force</div>
+      <div class="seance-desc">Squats, fentes, deadlifts — puissance pour la danse.</div>
+      <div class="seance-chips"><div class="chip">⏱ 45 min</div><div class="chip">💪 Jambes</div></div>
+    </div>
+    <div class="seance-card" id="pickerB" onclick="launchSeance('B')">
+      <div class="seance-header">
+        <div class="seance-letter b">B</div>
+        <div class="rec-badge" id="recBadgeB" style="display:none">Recommandée</div>
+      </div>
+      <div class="seance-name">Gainage & Mobilité</div>
+      <div class="seance-desc">Core, hanches, chevilles — stabilité et fluidité.</div>
+      <div class="seance-chips"><div class="chip">⏱ 45 min</div><div class="chip">🎯 Core</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- WORKOUT -->
+<div id="s-workout" class="screen">
+  <div class="topbar">
+    <span class="phase-label" id="topPhase">Échauffement</span>
+    <div class="progress-wrap">
+      <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill" style="width:0%"></div></div>
+      <span class="step-count" id="stepCount">1/1</span>
+    </div>
+    <button class="btn-quit" onclick="quitWorkout()">✕</button>
+  </div>
+  <div class="workout-body" id="workoutBody"></div>
+  <div class="bottom-bar">
+    <button class="btn-main" id="btnMain" onclick="handleMain()">Continuer</button>
+    <button class="btn-skip" id="btnSkip" onclick="skipTimer()" style="display:none">Passer le repos</button>
+  </div>
+</div>
+
+<!-- RECAP -->
+<div id="s-recap" class="screen">
+  <div class="recap-header">
+    <div class="recap-emoji">🎉</div>
+    <div class="recap-title">Séance terminée !</div>
+    <div class="recap-sub" id="recapSub"></div>
+  </div>
+  <div class="section-label">Bilan</div>
+  <div class="recap-list" id="recapList"></div>
+  <button class="btn-cta" onclick="showScreen('s-home')">Retour à l'accueil</button>
+  <button class="btn-secondary" onclick="showHistory()">📈 Historique</button>
+</div>
+
+<!-- HISTORY -->
+<div id="s-history" class="screen">
+  <div style="padding:48px 24px 40px;gap:20px;display:flex;flex-direction:column;flex:1">
+    <button class="btn-back" onclick="showScreen('s-recap')">← Retour</button>
+    <div style="font-size:26px;font-weight:900;letter-spacing:-.03em">Historique</div>
+    <div id="historyList" style="display:flex;flex-direction:column;gap:12px"></div>
+    <button class="btn-secondary" onclick="showScreen('s-home')">Retour à l'accueil</button>
+  </div>
+</div>
+
+<script>
+// ── SÉANCE A ──
+const SEANCE_A=[
+  {phase:"Échauffement",type:"exercise",name:"Cercles de hanches\n& mobilité chevilles",chips:["2 min","Poids du corps"],tip:"Hanches : grands cercles dans les deux sens. Chevilles : dessine des cercles avec le pied.",hasFeedback:false},
+  {phase:"Échauffement",type:"exercise",name:"Montées sur pointes",chips:["1 min","Lent"],tip:"Monte sur la pointe, tiens 2 sec en haut, redescends doucement. Essentiel pour les heels.",hasFeedback:false},
+  {phase:"Échauffement",type:"exercise",name:"Fentes au poids du corps",chips:["1 min","Alternées"],tip:"Posture droite, genou avant à 90°.",hasFeedback:false},
+  {phase:"Échauffement",type:"exercise",name:"Planche",chips:["30 sec"],tip:"Corps aligné, ventre rentré. Lance le timer.",hasFeedback:false,isTimed:true,timedSec:30},
+  {phase:"Bloc 1 — Jambes",type:"exercise",name:"Squat sumo",chips:["3 × 12 reps","8 kg"],tip:"Pieds larges, pointes à 45°. Haltère à deux mains. Fessiers jusqu'aux genoux.",hasFeedback:true,defaultWeight:8,defaultReps:12},
+  {phase:"Bloc 1 — Jambes",type:"rest",duration:60},
+  {phase:"Bloc 1 — Jambes",type:"exercise",name:"Romanian deadlift\nunilatéral",chips:["3 × 10 / jambe","6 kg"],tip:"Jambe libre vers l'arrière, dos droit. Sens l'étirement dans l'arrière de la cuisse.",hasFeedback:true,defaultWeight:6,defaultReps:10},
+  {phase:"Bloc 1 — Jambes",type:"rest",duration:60},
+  {phase:"Bloc 1 — Jambes",type:"exercise",name:"Fentes bulgares",chips:["3 × 10 / jambe","5 kg"],tip:"Pied arrière sur banc. Descends le genou arrière vers le sol.",hasFeedback:true,defaultWeight:5,defaultReps:10},
+  {phase:"Bloc 1 — Jambes",type:"rest",duration:60},
+  {phase:"Bloc 1 — Jambes",type:"exercise",name:"Hip thrust au sol",chips:["3 × 12 reps","Poids du corps"],tip:"Dos au sol, pousse le bassin vers le haut. Serre les fessiers en haut.",hasFeedback:true,defaultWeight:0,defaultReps:12},
+  {phase:"Bloc 1 — Jambes",type:"rest",duration:60},
+  {phase:"Bloc 2 — Gainage",type:"exercise",name:"Planche avant",chips:["3 × 40 sec"],tip:"Corps aligné, respiration régulière. Lance le timer.",hasFeedback:true,defaultWeight:0,defaultReps:null,isTimed:true,timedSec:40},
+  {phase:"Bloc 2 — Gainage",type:"rest",duration:60},
+  {phase:"Bloc 2 — Gainage",type:"exercise",name:"Planche latérale",chips:["3 × 20 sec / côté"],tip:"Appui sur l'avant-bras, corps droit. Lance le timer pour chaque côté.",hasFeedback:true,defaultWeight:0,defaultReps:null,isTimed:true,timedSec:20},
+  {phase:"Bloc 2 — Gainage",type:"rest",duration:60},
+  {phase:"Bloc 2 — Gainage",type:"exercise",name:"Dead bug",chips:["3 × 10 reps"],tip:"Bras vers le plafond, genoux à 90°. Descends bras droit + jambe gauche ensemble.",hasFeedback:true,defaultWeight:0,defaultReps:10},
+  {phase:"Bloc 2 — Gainage",type:"rest",duration:60},
+  {phase:"Bloc 2 — Gainage",type:"exercise",name:"Pont fessier\nunilatéral",chips:["3 × 12 / jambe"],tip:"Une jambe tendue, pousse avec l'autre. Bassin stable.",hasFeedback:true,defaultWeight:0,defaultReps:12},
+  {phase:"Bloc 2 — Gainage",type:"rest",duration:60},
+  {phase:"Retour au calme",type:"exercise",name:"Étirement quadriceps",chips:["1 min / jambe"],tip:"Debout, tire le pied vers les fessiers. Appui sur un mur si besoin.",hasFeedback:false},
+  {phase:"Retour au calme",type:"exercise",name:"Étirement ischio-jambiers",chips:["1 min / jambe"],tip:"Assis, jambe tendue, penche le buste vers le pied. Dos droit.",hasFeedback:false},
+  {phase:"Retour au calme",type:"exercise",name:"Étirement mollets\n& chevilles",chips:["1 min"],tip:"Appui contre un mur, talon au sol. Puis cercles de chevilles.",hasFeedback:false},
+  {phase:"Retour au calme",type:"exercise",name:"Étirement fléchisseurs\nde hanche",chips:["1 min / côté"],tip:"Fente basse, genou arrière au sol. Pousse le bassin vers l'avant.",hasFeedback:false},
+  {phase:"Retour au calme",type:"exercise",name:"Respiration\n& relâchement",chips:["2 min"],tip:"Inspire 4 sec, expire 6 sec. Relâche chaque muscle.",hasFeedback:false},
+];
+
+const SEANCE_B=[
+  {phase:"Échauffement",type:"exercise",name:"Cercles de hanches\n& rotation thoracique",chips:["2 min"],tip:"Hanches : grands cercles. Rotation : assis en tailleur, tourne le buste bras ouverts.",hasFeedback:false},
+  {phase:"Échauffement",type:"exercise",name:"Chat-vache",chips:["1 min"],tip:"À quatre pattes. Inspire en creusant (vache), expire en arrondissant (chat). Lent.",hasFeedback:false},
+  {phase:"Échauffement",type:"exercise",name:"Montées de genoux",chips:["1 min"],tip:"Lève les genoux alternativement à hauteur des hanches. Buste droit.",hasFeedback:false},
+  {phase:"Échauffement",type:"exercise",name:"Étirements dynamiques\ndes hanches",chips:["1 min"],tip:"Fentes basses alternées, 3 sec chaque côté. Ouvre les hanches.",hasFeedback:false},
+  {phase:"Bloc 1 — Gainage",type:"exercise",name:"Planche avant\ntenue longue",chips:["3 × 45 sec"],tip:"Serre les fessiers, rentre le ventre. Lance le timer.",hasFeedback:true,defaultWeight:0,defaultReps:null,isTimed:true,timedSec:45},
+  {phase:"Bloc 1 — Gainage",type:"rest",duration:60},
+  {phase:"Bloc 1 — Gainage",type:"exercise",name:"Planche latérale\navec rotation",chips:["3 × 10 / côté"],tip:"En planche latérale, passe le bras sous le corps puis ouvre vers le plafond.",hasFeedback:true,defaultWeight:0,defaultReps:10},
+  {phase:"Bloc 1 — Gainage",type:"rest",duration:60},
+  {phase:"Bloc 1 — Gainage",type:"exercise",name:"Mountain climbers\nlents",chips:["3 × 20 reps"],tip:"En planche, ramène un genou vers la poitrine puis l'autre. Lent = gainage.",hasFeedback:true,defaultWeight:0,defaultReps:20},
+  {phase:"Bloc 1 — Gainage",type:"rest",duration:60},
+  {phase:"Bloc 2 — Hanches & Chevilles",type:"exercise",name:"Clamshell",chips:["3 × 15 / côté"],tip:"Allongée sur le côté, genoux pliés. Ouvre le genou du dessus. Bassin immobile.",hasFeedback:true,defaultWeight:0,defaultReps:15},
+  {phase:"Bloc 2 — Hanches & Chevilles",type:"rest",duration:60},
+  {phase:"Bloc 2 — Hanches & Chevilles",type:"exercise",name:"Glute bridge\navec abduction",chips:["3 × 12 reps"],tip:"Pont fessier, en haut tu écares légèrement les genoux.",hasFeedback:true,defaultWeight:0,defaultReps:12},
+  {phase:"Bloc 2 — Hanches & Chevilles",type:"rest",duration:60},
+  {phase:"Bloc 2 — Hanches & Chevilles",type:"exercise",name:"Élévations sur pointes\nunilatérales",chips:["3 × 15 / pied"],tip:"Sur une jambe, monte sur la pointe, tiens 2 sec, redescends doucement.",hasFeedback:true,defaultWeight:0,defaultReps:15,isTimed:false},
+  {phase:"Bloc 2 — Hanches & Chevilles",type:"rest",duration:60},
+  {phase:"Bloc 2 — Hanches & Chevilles",type:"exercise",name:"Squat latéral\nalterné",chips:["3 × 10 / côté"],tip:"Pas large, glisse sur le côté en pliant un genou, l'autre jambe tendue.",hasFeedback:true,defaultWeight:0,defaultReps:10},
+  {phase:"Bloc 2 — Hanches & Chevilles",type:"rest",duration:60},
+  {phase:"Retour au calme",type:"exercise",name:"Pigeon au sol",chips:["2 min / côté"],tip:"Jambe pliée à 90° devant, l'autre tendue derrière. Penche le buste en avant.",hasFeedback:false},
+  {phase:"Retour au calme",type:"exercise",name:"Étirement mollets\n& chevilles",chips:["1 min"],tip:"Appui contre un mur, talon au sol. Puis cercles de chevilles.",hasFeedback:false},
+  {phase:"Retour au calme",type:"exercise",name:"Étirement adducteurs",chips:["1 min"],tip:"Assis, plantes des pieds ensemble (papillon). Pousse doucement les genoux vers le sol.",hasFeedback:false},
+  {phase:"Retour au calme",type:"exercise",name:"Respiration\n& relâchement",chips:["2 min"],tip:"Inspire 4 sec, expire 6 sec. Relâche chaque muscle.",hasFeedback:false},
+];
+
+const SEANCES={A:SEANCE_A,B:SEANCE_B};
+
+let state={
+  freq:1,loc:'gym',currentSeance:'A',
+  steps:[],stepIndex:0,feedbacks:{},
+  restInterval:null,restLeft:0,isPaused:false,
+  manualInterval:null,manualLeft:0,manualRunning:false,
+};
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+function selectFreq(n){
+  state.freq=n;
+  ['freq1','freq2'].forEach(id=>document.getElementById(id).classList.remove('selected'));
+  document.getElementById('freq'+n).classList.add('selected');
+}
+function selectLoc(l){
+  if(l==='home')return;
+  state.loc=l;
+  document.getElementById('locGym').classList.toggle('selected',l==='gym');
+}
+function startFlow(){
+  localStorage.setItem('df_objective',document.getElementById('objectiveInput').value);
+  localStorage.setItem('df_freq',state.freq);
+  if(state.freq===1)launchSeance('A');
+  else{updatePickerRec();showScreen('s-picker');}
+}
+function updatePickerRec(){
+  const h=JSON.parse(localStorage.getItem('df_history')||'[]');
+  const last=h.length?h[h.length-1].seance:null;
+  const rec=last==='A'?'B':'A';
+  document.getElementById('pickerA').classList.toggle('recommended',rec==='A');
+  document.getElementById('pickerB').classList.toggle('recommended',rec==='B');
+  document.getElementById('recBadgeA').style.display=rec==='A'?'':'none';
+  document.getElementById('recBadgeB').style.display=rec==='B'?'':'none';
+}
+function launchSeance(type){
+  state.currentSeance=type;
+  state.steps=SEANCES[type];
+  state.stepIndex=0;
+  state.feedbacks={};
+  clearRestTimer();clearManualTimer();
+  showScreen('s-workout');
+  renderStep();
+}
+
+// ── RENDER ──
+function renderStep(){
+  const step=state.steps[state.stepIndex];
+  const pct=Math.round((state.stepIndex/state.steps.length)*100);
+  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('stepCount').textContent=(state.stepIndex+1)+'/'+state.steps.length;
+  document.getElementById('topPhase').textContent=step.phase;
+
+  const body=document.getElementById('workoutBody');
+  const btnMain=document.getElementById('btnMain');
+  const btnSkip=document.getElementById('btnSkip');
+  btnMain.className='btn-main';
+  btnSkip.style.display='none';
+  state.isPaused=false;
+  clearManualTimer();
+
+  if(step.type==='rest'){
+    state.restLeft=step.duration;
+    btnMain.className='btn-main rest-mode';
+    btnMain.textContent='⏸ Pause';
+    btnSkip.style.display='block';
+    body.innerHTML=`
+      <div class="phase-badge"><div class="phase-dot" style="background:var(--green)"></div>${step.phase}</div>
+      <div class="rest-card">
+        <div style="font-size:20px;font-weight:800">Temps de repos</div>
+        <div class="timer-card">
+          <div class="timer-label">⏱ Récupération</div>
+          <div class="timer-display" id="timerDisplay">${formatTime(state.restLeft)}</div>
+          <div class="timer-sub">Respire, hydrate-toi</div>
+        </div>
+      </div>`;
+    startRestTimer();
+  } else {
+    clearRestTimer();
+    const isLast=state.stepIndex===state.steps.length-1;
+    btnMain.textContent=isLast?'Terminer ✓':(step.hasFeedback?'Valider ✓':'Continuer →');
+    const saved=state.feedbacks[state.stepIndex]||{};
+    const nameParts=step.name.split('\n');
+
+    // Get last session values for this exercise
+    const lastVals=getLastSessionValues(step.name);
+
+    body.innerHTML=`
+      <div class="phase-badge"><div class="phase-dot"></div>${step.phase}</div>
+      <div class="exercise-name">${nameParts.join('<br>')}</div>
+      <div class="exercise-chips">${step.chips.map((c,i)=>`<div class="chip${i===0?' accent':''}">${c}</div>`).join('')}</div>
+      <div class="tip-box"><div class="tip-label">💡 Conseil</div>${step.tip}</div>
+      ${step.isTimed?renderManualTimer(step,saved):''}
+      ${step.hasFeedback?renderFeedback(step,saved,lastVals):''}
+    `;
+
+    if(step.hasFeedback)attachStepperListeners(step);
+  }
+}
+
+function getLastSessionValues(name){
+  const h=JSON.parse(localStorage.getItem('df_history')||'[]');
+  for(let i=h.length-1;i>=0;i--){
+    const session=h[i];
+    const idx=session.steps?session.steps.findIndex(s=>s.name===name):-1;
+    if(idx>=0&&session.feedbacks&&session.feedbacks[idx]){
+      return session.feedbacks[idx];
+    }
+  }
+  return null;
+}
+
+function renderManualTimer(step,saved){
+  const sec=step.timedSec||30;
+  return `
+    <div class="manual-timer">
+      <div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px">Timer</div>
+        <div class="manual-timer-display" id="manualDisplay">${formatTime(sec)}</div>
+      </div>
+      <div style="display:flex;gap:8px;flex-direction:column;align-items:flex-end">
+        <button class="timer-btn start" id="manualBtn" onclick="toggleManualTimer(${sec})">▶ Lancer</button>
+        <button class="timer-btn reset" onclick="resetManualTimer(${sec})">Reset</button>
+      </div>
+    </div>`;
+}
+
+function renderFeedback(step,saved,lastVals){
+  // Weight stepper
+  const wVal=saved.weight!==undefined?saved.weight:(lastVals?.weight!==undefined?lastVals.weight:(step.defaultWeight||0));
+  const rVal=saved.reps!==undefined?saved.reps:(lastVals?.reps!==undefined?lastVals.reps:(step.defaultReps||0));
+
+  const wRef=lastVals?.weight!==undefined?lastVals.weight:step.defaultWeight;
+  const rRef=lastVals?.reps!==undefined?lastVals.reps:step.defaultReps;
+  const wRefLabel=wRef?(lastVals?`Dernière fois: ${wRef} kg`:`Prévu: ${wRef} kg`):'Poids du corps';
+  const rRefLabel=rRef?(lastVals?`Dernière fois: ${rRef}`:`Prévu: ${rRef}`):'';
+
+  const wStep=step.defaultWeight>0?0.5:1;
+
+  const weightBlock=`
+    <div class="stepper-block">
+      <div class="stepper-label">Poids</div>
+      <div class="stepper-controls">
+        <button class="stepper-btn" onclick="adjustVal('weight',${-wStep})">−</button>
+        <div class="stepper-val" id="val-weight">${wVal}</div>
+        <button class="stepper-btn" onclick="adjustVal('weight',${wStep})">+</button>
+      </div>
+      <div class="stepper-unit">kg</div>
+      <div class="stepper-ref" id="ref-weight">${wRefLabel}</div>
+    </div>`;
+
+  const repsBlock=step.defaultReps?`
+    <div class="stepper-block">
+      <div class="stepper-label">Reps</div>
+      <div class="stepper-controls">
+        <button class="stepper-btn" onclick="adjustVal('reps',-1)">−</button>
+        <div class="stepper-val" id="val-reps">${rVal}</div>
+        <button class="stepper-btn" onclick="adjustVal('reps',1)">+</button>
+      </div>
+      <div class="stepper-unit">reps</div>
+      <div class="stepper-ref" id="ref-reps">${rRefLabel}</div>
+    </div>`:'';
+
+  const diff=saved.diff||'';
+  return `
+    <div class="feedback-card">
+      <div class="fb-section-title">📊 Ton retour</div>
+      <div class="stepper-row">${weightBlock}${repsBlock}</div>
+      <div>
+        <div style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:8px;letter-spacing:.05em">DIFFICULTÉ</div>
+        <div class="diff-row">
+          <button class="diff-btn ${diff==='easy'?'selected-easy':''}" id="diff-easy" onclick="selectDiff('easy')">😌<br>Facile</button>
+          <button class="diff-btn ${diff==='ok'?'selected-ok':''}" id="diff-ok" onclick="selectDiff('ok')">💪<br>Ok</button>
+          <button class="diff-btn ${diff==='hard'?'selected-hard':''}" id="diff-hard" onclick="selectDiff('hard')">🥵<br>Dur</button>
+          <button class="diff-btn ${diff==='skip'?'selected-skip':''}" id="diff-skip" onclick="selectDiff('skip')">⛔<br>Skip</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function attachStepperListeners(step){
+  if(!state.feedbacks[state.stepIndex]){
+    const saved=state.feedbacks[state.stepIndex]||{};
+    const lastVals=getLastSessionValues(step.name);
+    state.feedbacks[state.stepIndex]={
+      weight:saved.weight!==undefined?saved.weight:(lastVals?.weight!==undefined?lastVals.weight:(step.defaultWeight||0)),
+      reps:saved.reps!==undefined?saved.reps:(lastVals?.reps!==undefined?lastVals.reps:(step.defaultReps||0)),
+      diff:saved.diff||''
+    };
+  }
+}
+
+function adjustVal(field,delta){
+  if(!state.feedbacks[state.stepIndex])state.feedbacks[state.stepIndex]={};
+  const fb=state.feedbacks[state.stepIndex];
+  const step=state.steps[state.stepIndex];
+  const lastVals=getLastSessionValues(step.name);
+
+  let current=fb[field]!==undefined?fb[field]:(field==='weight'?(lastVals?.weight||step.defaultWeight||0):(lastVals?.reps||step.defaultReps||0));
+  current=Math.max(0,parseFloat((current+delta).toFixed(1)));
+  fb[field]=current;
+
+  const el=document.getElementById('val-'+field);
+  if(el)el.textContent=current;
+
+  // Update ref label color
+  updateRefColor(field,current,lastVals,step);
+}
+
+function updateRefColor(field,current,lastVals,step){
+  const refEl=document.getElementById('ref-'+field);
+  if(!refEl)return;
+  const ref=field==='weight'?(lastVals?.weight||step.defaultWeight||0):(lastVals?.reps||step.defaultReps||0);
+  if(!ref)return;
+  refEl.className='stepper-ref'+(current>ref?' better':current<ref?' worse':'');
+}
+
+function selectDiff(val){
+  if(!state.feedbacks[state.stepIndex])state.feedbacks[state.stepIndex]={};
+  state.feedbacks[state.stepIndex].diff=val;
+  ['easy','ok','hard','skip'].forEach(d=>{
+    const btn=document.getElementById('diff-'+d);
+    if(btn)btn.className='diff-btn'+(d===val?' selected-'+d:'');
+  });
+}
+
+// ── MANUAL TIMER ──
+function toggleManualTimer(totalSec){
+  if(state.manualRunning){
+    clearManualTimer();
+    document.getElementById('manualBtn').textContent='▶ Lancer';
+    document.getElementById('manualBtn').className='timer-btn start';
+    document.getElementById('manualDisplay').className='manual-timer-display';
+  } else {
+    if(state.manualLeft<=0)state.manualLeft=totalSec;
+    state.manualRunning=true;
+    document.getElementById('manualBtn').textContent='⏸ Pause';
+    document.getElementById('manualBtn').className='timer-btn pause';
+    document.getElementById('manualDisplay').className='manual-timer-display running';
+    state.manualInterval=setInterval(()=>{
+      state.manualLeft--;
+      const el=document.getElementById('manualDisplay');
+      if(el)el.textContent=formatTime(state.manualLeft);
+      if(state.manualLeft<=0){
+        clearManualTimer();
+        const el2=document.getElementById('manualDisplay');
+        if(el2){el2.textContent='✓ Done';el2.className='manual-timer-display done';}
+        const btn=document.getElementById('manualBtn');
+        if(btn){btn.textContent='▶ Relancer';btn.className='timer-btn start';}
+      }
+    },1000);
+  }
+}
+function resetManualTimer(totalSec){
+  clearManualTimer();
+  state.manualLeft=totalSec;
+  const el=document.getElementById('manualDisplay');
+  if(el){el.textContent=formatTime(totalSec);el.className='manual-timer-display';}
+  const btn=document.getElementById('manualBtn');
+  if(btn){btn.textContent='▶ Lancer';btn.className='timer-btn start';}
+}
+function clearManualTimer(){
+  if(state.manualInterval){clearInterval(state.manualInterval);state.manualInterval=null;}
+  state.manualRunning=false;
+}
+
+// ── REST TIMER ──
+function startRestTimer(){
+  clearRestTimer();
+  state.restInterval=setInterval(()=>{
+    if(!state.isPaused){
+      state.restLeft--;
+      const el=document.getElementById('timerDisplay');
+      if(el)el.textContent=formatTime(state.restLeft);
+      if(state.restLeft<=0){clearRestTimer();setTimeout(advance,400);}
+    }
+  },1000);
+}
+function clearRestTimer(){if(state.restInterval){clearInterval(state.restInterval);state.restInterval=null;}}
+function skipTimer(){clearRestTimer();advance();}
+function formatTime(s){return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');}
+
+function handleMain(){
+  const step=state.steps[state.stepIndex];
+  if(step.type==='rest'){
+    state.isPaused=!state.isPaused;
+    document.getElementById('btnMain').textContent=state.isPaused?'▶ Reprendre':'⏸ Pause';
+    return;
+  }
+  advance();
+}
+function advance(){
+  state.stepIndex++;
+  if(state.stepIndex>=state.steps.length)showRecap();
+  else renderStep();
+}
+function quitWorkout(){clearRestTimer();clearManualTimer();showScreen('s-home');}
+
+// ── RECAP ──
+function showRecap(){
+  clearRestTimer();clearManualTimer();
+  const date=new Date().toLocaleDateString('fr-CH',{day:'numeric',month:'long'});
+  document.getElementById('recapSub').textContent='Séance '+state.currentSeance+' · '+date;
+  const exSteps=state.steps.filter(s=>s.type==='exercise'&&s.hasFeedback);
+  const dL={easy:'Facile',ok:'Ok',hard:'Dur',skip:'Skip','':'–'};
+  const dE={easy:'😌',ok:'💪',hard:'🥵',skip:'⛔','':'–'};
+  document.getElementById('recapList').innerHTML=exSteps.map(step=>{
+    const idx=state.steps.indexOf(step);
+    const fb=state.feedbacks[idx]||{};
+    const diff=fb.diff||'';
+    const w=(fb.weight&&fb.weight>0)?fb.weight+' kg':(step.defaultWeight?step.defaultWeight+' kg':'Poids du corps');
+    const r=fb.reps?fb.reps+' reps':(step.defaultReps?step.defaultReps+' reps':'');
+    return `<div class="recap-item ${diff}">
+      <div class="recap-name">${step.name.replace('\n',' ')}</div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px">
+        <div class="recap-details">${w}${r?' · '+r:''}</div>
+        <div class="recap-diff-badge ${diff}">${dE[diff]} ${dL[diff]}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Save history with step names for lookup
+  const h=JSON.parse(localStorage.getItem('df_history')||'[]');
+  h.push({
+    date:new Date().toISOString(),
+    seance:state.currentSeance,
+    feedbacks:Object.fromEntries(Object.entries(state.feedbacks).map(([k,v])=>[k,v])),
+    steps:exSteps.map(s=>({name:s.name,defaultWeight:s.defaultWeight,defaultReps:s.defaultReps}))
+  });
+  localStorage.setItem('df_history',JSON.stringify(h));
+  showScreen('s-recap');
+}
+
+function showHistory(){
+  const h=JSON.parse(localStorage.getItem('df_history')||'[]');
+  const list=document.getElementById('historyList');
+  if(!h.length){list.innerHTML='<div style="color:var(--muted);font-size:14px;text-align:center">Aucune séance enregistrée.</div>';showScreen('s-history');return;}
+  const dL={easy:'Facile',ok:'Ok',hard:'Dur',skip:'Skip'};
+  const dE={easy:'😌',ok:'💪',hard:'🥵',skip:'⛔'};
+  list.innerHTML=[...h].reverse().map(session=>{
+    const d=new Date(session.date).toLocaleDateString('fr-CH',{day:'numeric',month:'long',year:'numeric'});
+    const counts={easy:0,ok:0,hard:0,skip:0};
+    Object.values(session.feedbacks||{}).forEach(fb=>{if(fb.diff)counts[fb.diff]++;});
+    const badges=Object.entries(counts).filter(([,v])=>v>0).map(([k,v])=>`<span style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;color:var(--${k==='easy'?'green':k==='ok'?'accent':k==='hard'?'orange':'red'})">${dE[k]} ${v}</span>`).join('');
+    return `<div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:14px 16px;display:flex;flex-direction:column;gap:6px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-size:15px;font-weight:800">Séance ${session.seance}</div>
+        <div style="font-size:11px;color:var(--muted)">${d}</div>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">${badges}</div>
+    </div>`;
+  }).join('');
+  showScreen('s-history');
+}
+
+window.addEventListener('load',()=>{
+  const saved=localStorage.getItem('df_objective');
+  const savedFreq=parseInt(localStorage.getItem('df_freq')||'1');
+  if(saved)document.getElementById('objectiveInput').value=saved;
+  selectFreq(savedFreq);
+});
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  });
+}
+</script>
+</body>
+</html>
