@@ -120,6 +120,34 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .timer-icon-btn.pause{background:var(--border);}
 .timer-icon-btn.reset{background:transparent;border:1.5px solid var(--border);}
 
+/* SIDES (côté droit / gauche) */
+.side-indicator{display:flex;flex-direction:column;gap:6px;flex-shrink:0;}
+.side-dots{display:flex;gap:6px;}
+.side-dot{width:8px;height:8px;border-radius:50%;background:var(--border);}
+.side-dot.active{background:var(--accent);}
+.side-dot.done{background:var(--green);}
+.side-label{font-size:15px;font-weight:700;color:var(--text);}
+.btn-side-next{width:100%;padding:13px;border-radius:var(--r);border:1.5px solid var(--border);background:var(--surface);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;flex-shrink:0;}
+
+/* BONUS OPTIONNEL */
+.bonus-card{border:1.5px dashed var(--muted);border-radius:var(--r);padding:12px 14px;display:flex;align-items:flex-start;gap:10px;flex-shrink:0;}
+.bonus-check{width:22px;height:22px;border-radius:6px;border:2px solid var(--muted);flex-shrink:0;margin-top:1px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.bonus-check.checked{background:var(--green);border-color:var(--green);}
+.bonus-check svg{display:none;}
+.bonus-check.checked svg{display:block;}
+.bonus-body{display:flex;flex-direction:column;gap:4px;flex:1;}
+.bonus-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+.bonus-name{font-size:15px;font-weight:700;}
+.bonus-desc{font-size:12px;color:var(--muted);line-height:1.4;}
+
+/* MINI-CIRCUIT */
+.circuit-tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);background:#fb923c22;border:1px solid var(--orange);border-radius:20px;padding:4px 10px;align-self:flex-start;flex-shrink:0;}
+.circuit-round{font-size:13px;color:var(--muted);flex-shrink:0;}
+.circuit-list{display:flex;flex-direction:column;gap:6px;flex-shrink:0;}
+.circuit-list-item{font-size:13px;color:var(--muted);padding:6px 10px;border-radius:8px;background:var(--surface);}
+.circuit-list-item.current{color:var(--text);font-weight:700;background:#2d0f5e33;border:1px solid var(--accent);}
+.circuit-list-item.done{color:var(--green);text-decoration:line-through;}
+
 /* REST */
 .rest-card{display:flex;flex-direction:column;align-items:center;gap:16px;flex:1;justify-content:center;}
 .timer-card{background:var(--surface);border-radius:var(--r);padding:24px 20px;display:flex;flex-direction:column;align-items:center;gap:14px;border:1px solid var(--border);width:100%;}
@@ -714,6 +742,7 @@ function renderStep() {
   btnMain.className = 'btn-main';
   btnSkip.style.display = 'none';
   state.isPaused = false;
+  state.currentSide = 0;
   clearManualTimer();
 
   if (step.type === 'rest') {
@@ -732,6 +761,14 @@ function renderStep() {
         </div>
       </div>`;
     startRestTimer();
+  } else if (step.type === 'circuit') {
+    clearRestTimer();
+    if (state.circuitStepIndex !== state.stepIndex) {
+      state.circuitStepIndex = state.stepIndex;
+      state.circuitIdx = 0;
+      state.circuitRound = 1;
+    }
+    renderCircuitBody(step);
   } else {
     clearRestTimer();
     const isLast = state.stepIndex === state.steps.length-1;
@@ -741,15 +778,109 @@ function renderStep() {
     const nameParts = step.name.split('\n');
     // Remove weight chip from display (redundant with stepper)
     const displayChips = step.chips.filter(c => !c.includes('kg') && c !== 'Poids du corps');
+    if (step.restBetweenSets) displayChips.push(`Repos recommandé entre séries : ${step.restBetweenSets} sec`);
+    const timedSec = getTimedSeconds(step);
+    const hasSides = /côté/i.test(step.chips.join(' '));
     body.innerHTML = `
       <div class="phase-badge"><div class="phase-dot"></div>${step.phase}</div>
       <div class="exercise-name">${nameParts.join('<br>')}</div>
       <div class="exercise-chips">${displayChips.map((c,i)=>`<div class="chip${i===0?' accent':''}">${c}</div>`).join('')}</div>
       <div class="tip-box"><div class="tip-label">Conseil</div>${step.tip}</div>
-      ${step.isTimed ? renderManualTimer(step) : ''}
+      ${hasSides ? renderSideIndicator() : ''}
+      ${timedSec ? renderManualTimer(timedSec) : ''}
+      ${hasSides ? `<button class="btn-side-next" onclick="nextSide()">Côté suivant →</button>` : ''}
+      ${step.bonus ? renderBonus(step, saved) : ''}
       ${step.hasFeedback ? renderFeedback(step, saved, lastVals) : ''}`;
     if (step.hasFeedback) initFeedbackState(step, saved, lastVals);
   }
+}
+
+// Détecte une durée en secondes même si isTimed n'est pas explicitement posé dans le JSON
+function getTimedSeconds(step) {
+  if (step.isTimed && step.timedSec) return step.timedSec;
+  for (const c of (step.chips||[])) {
+    const m = c.match(/(\d+)\s*sec/i);
+    if (m) return parseInt(m[1]);
+  }
+  return step.isTimed ? 30 : null;
+}
+
+function renderSideIndicator() {
+  const idx = state.currentSide || 0;
+  return `<div class="side-indicator">
+    <div class="side-dots" id="sideDots">${[0,1].map(i=>`<div class="side-dot ${i===idx?'active':i<idx?'done':''}"></div>`).join('')}</div>
+    <div class="side-label" id="sideLabel">${idx===0?'Côté droit':'Côté gauche'}</div>
+  </div>`;
+}
+function nextSide() {
+  state.currentSide = ((state.currentSide||0)+1) % 2;
+  const step = state.steps[state.stepIndex];
+  const sec = getTimedSeconds(step);
+  if (sec) resetManualTimer(sec);
+  const dotsEl = document.getElementById('sideDots');
+  const labelEl = document.getElementById('sideLabel');
+  if (dotsEl) dotsEl.innerHTML = [0,1].map(i=>`<div class="side-dot ${i===state.currentSide?'active':i<state.currentSide?'done':''}"></div>`).join('');
+  if (labelEl) labelEl.textContent = state.currentSide===0?'Côté droit':'Côté gauche';
+}
+
+function renderBonus(step, saved) {
+  const checked = !!saved.bonusDone;
+  return `<div class="bonus-card">
+    <div class="bonus-check${checked?' checked':''}" id="bonusCheck" onclick="toggleBonus()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0d0d10" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div class="bonus-body">
+      <div class="bonus-label">Bonus optionnel</div>
+      <div class="bonus-name">${step.bonus.name}</div>
+      <div class="bonus-desc">${step.bonus.tip||''}</div>
+    </div>
+  </div>`;
+}
+function toggleBonus() {
+  if (!state.feedbacks[state.stepIndex]) state.feedbacks[state.stepIndex] = {};
+  const fb = state.feedbacks[state.stepIndex];
+  fb.bonusDone = !fb.bonusDone;
+  const el = document.getElementById('bonusCheck');
+  if (el) el.className = 'bonus-check'+(fb.bonusDone?' checked':'');
+}
+
+// ── MINI-CIRCUIT ──
+function renderCircuitBody(step) {
+  const btnMain = document.getElementById('btnMain');
+  const btnSkip = document.getElementById('btnSkip');
+  const body = document.getElementById('workoutBody');
+  btnSkip.style.display = 'none';
+  const rounds = step.rounds || 1;
+  const exos = step.exercises || [];
+  const idx = state.circuitIdx || 0;
+  const ex = exos[idx] || {};
+  const sec = getTimedSeconds(ex);
+  const isLast = state.stepIndex === state.steps.length-1;
+  const isLastSub = (idx === exos.length-1) && (state.circuitRound === rounds);
+  btnMain.className = 'btn-main';
+  btnMain.textContent = isLastSub ? (isLast ? 'Terminer ✓' : 'Continuer →') : 'Suivant dans le circuit →';
+  body.innerHTML = `
+    <div class="phase-badge"><div class="phase-dot"></div>${step.phase}</div>
+    <div class="circuit-tag">🔁 ${step.name || 'Mini-circuit'}</div>
+    <div class="circuit-round">Tour ${state.circuitRound}/${rounds}</div>
+    <div class="exercise-name">${ex.name||''}</div>
+    <div class="exercise-chips">${(ex.chips||[]).map((c,i)=>`<div class="chip${i===0?' accent':''}">${c}</div>`).join('')}</div>
+    ${ex.tip ? `<div class="tip-box"><div class="tip-label">Conseil</div>${ex.tip}</div>` : ''}
+    <div class="circuit-list">${exos.map((e,i)=>`<div class="circuit-list-item ${i===idx?'current':i<idx?'done':''}">${i+1}. ${e.name}</div>`).join('')}</div>
+    ${sec ? renderManualTimer(sec) : ''}`;
+}
+function circuitNext() {
+  const step = state.steps[state.stepIndex];
+  const exos = step.exercises || [];
+  const rounds = step.rounds || 1;
+  clearManualTimer();
+  state.circuitIdx = (state.circuitIdx||0) + 1;
+  if (state.circuitIdx >= exos.length) {
+    state.circuitIdx = 0;
+    state.circuitRound = (state.circuitRound||1) + 1;
+    if (state.circuitRound > rounds) { advance(); return; }
+  }
+  renderCircuitBody(step);
 }
 
 function getLastSessionValues(name) {
@@ -762,8 +893,8 @@ function getLastSessionValues(name) {
   return null;
 }
 
-function renderManualTimer(step) {
-  const sec = step.timedSec || 30;
+function renderManualTimer(sec) {
+  sec = sec || 30;
   return `<div class="manual-timer">
     <div>
       <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px">Timer</div>
@@ -788,10 +919,11 @@ function renderFeedback(step, saved, lastVals) {
   const wRefLabel = wRef > 0 ? (lastVals ? `Dernière: ${wRef} kg` : `Prévu: ${wRef} kg`) : 'Poids du corps';
   const rRefLabel = rRef ? (lastVals ? `Dernière: ${rRef}` : `Prévu: ${rRef}`) : '';
   const diff = saved.diff || '';
+  const tracksWeight = step.defaultWeight !== undefined && step.defaultWeight !== null;
   return `<div class="feedback-card">
     <div class="fb-section-title">Ton retour</div>
     <div class="stepper-row">
-      <div class="stepper-block">
+      ${tracksWeight ? `<div class="stepper-block">
         <div class="stepper-label">Poids</div>
         <div class="stepper-controls">
           <button class="stepper-btn" onclick="adjustVal('weight',-0.5)">−</button>
@@ -800,7 +932,7 @@ function renderFeedback(step, saved, lastVals) {
         </div>
         <div class="stepper-unit">kg</div>
         <div class="stepper-ref" id="ref-weight">${wRefLabel}</div>
-      </div>
+      </div>` : ''}
       ${step.defaultReps ? `<div class="stepper-block">
         <div class="stepper-label">Reps</div>
         <div class="stepper-controls">
@@ -930,6 +1062,10 @@ function handleMain() {
     state.isPaused = !state.isPaused;
     const btn = document.getElementById('btnMain');
     btn.textContent = state.isPaused ? 'Reprendre' : 'Pause';
+    return;
+  }
+  if (step.type === 'circuit') {
+    circuitNext();
     return;
   }
   advance();
