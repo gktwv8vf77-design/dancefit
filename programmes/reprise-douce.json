@@ -1,0 +1,281 @@
+{
+  "version": "1.0",
+  "name": "Reprise douce — retour après maladie",
+  "objective": "Remettre le corps en mouvement en douceur, sans forcer, avant de passer au programme normal.",
+  "seances": {
+    "A": {
+      "name": "Reprise — Corps entier 1",
+      "desc": "Machines guidées, charges légères, marche en fin de séance. Aucun effort maximal.",
+      "chips": ["⏱ 45 min", "🌱 Reprise douce"],
+      "steps": [
+        {
+          "phase": "Échauffement",
+          "type": "exercise",
+          "name": "Vélo d'appartement",
+          "chips": ["6 min", "Allure très facile"],
+          "tip": "Tu dois pouvoir tenir une conversation normale. Si tu es essoufflé, ralentis.",
+          "hasFeedback": false,
+          "isTimed": true,
+          "timedSec": 360
+        },
+        {
+          "phase": "Échauffement",
+          "type": "exercise",
+          "name": "Chat-chameau au sol",
+          "chips": ["10 mouvements lents"],
+          "tip": "À quatre pattes : arrondis le dos vers le plafond, puis creuse-le doucement. Respire à chaque mouvement.",
+          "hasFeedback": false
+        },
+        {
+          "phase": "Échauffement",
+          "type": "exercise",
+          "name": "Rotations d'épaules avec un bâton",
+          "chips": ["12 répétitions"],
+          "tip": "Bâton large devant toi, passe-le au-dessus de la tête vers l'arrière. Sans forcer : arrête-toi où ça tire.",
+          "hasFeedback": false
+        },
+        {
+          "phase": "Échauffement",
+          "type": "exercise",
+          "name": "Squat à vide",
+          "chips": ["10 répétitions lentes"],
+          "tip": "Descends comme pour t'asseoir sur une chaise, genoux dans l'axe des pieds. Pas besoin de descendre bas.",
+          "hasFeedback": false
+        },
+        {
+          "phase": "Bloc 1",
+          "type": "exercise",
+          "name": "Presse à cuisses",
+          "chips": ["3 × 12 répétitions"],
+          "tip": "Choisis un poids qui reste facile jusqu'à la dernière répétition. Ne verrouille pas les genoux en haut.",
+          "hasFeedback": true,
+          "defaultWeight": 40,
+          "defaultReps": 12,
+          "maxWeight": 90,
+          "restBetweenSets": 60,
+          "alternatives": ["Squat assis-debout sur une chaise, sans charge", "Presse à cuisses une jambe à la fois"]
+        },
+        { "phase": "Bloc 1", "type": "rest", "duration": 60 },
+        {
+          "phase": "Bloc 1",
+          "type": "exercise",
+          "name": "Tirage vertical poitrine",
+          "chips": ["3 × 12 répétitions"],
+          "tip": "Tire la barre vers le haut de la poitrine, coudes vers le bas. Ce sont les omoplates qui travaillent, pas les bras.",
+          "hasFeedback": true,
+          "defaultWeight": 25,
+          "defaultReps": 12,
+          "maxWeight": 55,
+          "restBetweenSets": 60,
+          "alternatives": ["Tirage à la poulie assis, buste bien droit", "Tirage vertical prise serrée"]
+        },
+        { "phase": "Bloc 1", "type": "rest", "duration": 60 },
+        {
+          "phase": "Bloc 1",
+          "type": "exercise",
+          "name": "Développé poitrine à la machine",
+          "chips": ["3 × 12 répétitions"],
+          "tip": "Dos et épaules bien collés au dossier. Pousse sans bloquer ta respiration.",
+          "hasFeedback": true,
+          "defaultWeight": 20,
+          "defaultReps": 12,
+          "maxWeight": 45,
+          "restBetweenSets": 60,
+          "alternatives": ["Pompes contre un mur", "Développé poitrine avec haltères légers"]
+        },
+        { "phase": "Bloc 1", "type": "rest", "duration": 60 },
+        {
+          "phase": "Bloc 1",
+          "type": "exercise",
+          "name": "Gainage sur les genoux",
+          "chips": ["3 séries × 20 sec"],
+          "tip": "Appuis sur les avant-bras et les genoux, corps en ligne droite. Serre le ventre, ne creuse pas le bas du dos.",
+          "hasFeedback": true,
+          "defaultReps": 3,
+          "isTimed": true,
+          "timedSec": 20,
+          "restBetweenSets": 45,
+          "alternatives": ["Gainage debout, mains appuyées sur un banc", "Gainage classique sur la pointe des pieds"]
+        },
+        {
+          "phase": "Cardio",
+          "type": "exercise",
+          "name": "Marche rapide sur tapis incliné",
+          "chips": ["10 min", "Inclinaison 5 %"],
+          "tip": "Marche, ne cours pas. Objectif : être légèrement essoufflé mais capable de parler.",
+          "hasFeedback": false,
+          "isTimed": true,
+          "timedSec": 600
+        },
+        {
+          "phase": "Retour au calme",
+          "type": "exercise",
+          "name": "Étirement des ischio-jambiers",
+          "chips": ["30 sec par côté"],
+          "tip": "Jambe tendue posée sur un banc bas, penche le buste vers l'avant en gardant le dos droit.",
+          "hasFeedback": false
+        },
+        {
+          "phase": "Retour au calme",
+          "type": "exercise",
+          "name": "Étirement des quadriceps",
+          "chips": ["30 sec par côté"],
+          "tip": "Debout, attrape ta cheville derrière toi, genou vers le sol. Appuie-toi à un mur pour l'équilibre.",
+          "hasFeedback": false
+        },
+        {
+          "phase": "Retour au calme",
+          "type": "exercise",
+          "name": "Ouverture de poitrine contre un mur",
+          "chips": ["30 sec"],
+          "tip": "Avant-bras contre un mur ou un cadre de porte, avance le buste. Tu dois sentir l'avant de l'épaule s'ouvrir.",
+          "hasFeedback": false
+        },
+        {
+          "phase": "Retour au calme",
+          "type": "exercise",
+          "name": "Posture de l'enfant",
+          "chips": ["45 sec"],
+          "tip": "À genoux, fesses sur les talons, bras tendus devant, front au sol. Respire lentement par le ventre.",
+          "hasFeedback": false
+        }
+      ]
+    },
+    "B": {
+      "name": "Reprise — Corps entier 2",
+      "desc": "Même logique que la séance A, sur les muscles opposés. À alterner avec A.",
+      "chips": ["⏱ 45 min", "🌱 Reprise douce"],
+      "steps": [
+        {
+          "phase": "Échauffement",
+          "type": "exercise",
+          "name": "Rameur",
+          "chips": ["5 min", "Allure très facile"],
+          "tip": "Pousse d'abord avec les jambes, puis tire avec les bras. Mouvement lent et régulier.",
+          "hasFeedback": false,
+          "isTimed": true,
+          "timedSec": 300
+        },
+        {
+          "phase": "Échauffement",
+          "type": "exercise",
+          "name": "Cercles de hanches debout",
+          "chips": ["10 par côté"],
+          "tip": "Mains sur les hanches, dessine des cercles lents avec le bassin. Ça réveille le bas du dos.",
+          "hasFeedback": false
+        },
+        {
+          "phase": "Échauffement",
+          "type": "exercise",
+          "name": "Élévations latérales sans charge",
+          "chips": ["15 répétitions"],
+          "tip": "Bras tendus, monte jusqu'à l'horizontale seulement. C'est un échauffement, pas un exercice de force.",
+          "hasFeedback": false
+        },
+        {
+          "phase": "Échauffement",
+          "type": "exercise",
+          "name": "Pont fessier au sol",
+          "chips": ["12 répétitions"],
+          "tip": "Allongé sur le dos, pieds à plat, monte le bassin en serrant les fessiers. Sans creuser le bas du dos.",
+          "hasFeedback": false
+        },
+        {
+          "phase": "Bloc 1",
+          "type": "exercise",
+          "name": "Rowing assis à la poulie",
+          "chips": ["3 × 12 répétitions"],
+          "tip": "Buste droit, tire les coudes vers l'arrière en serrant les omoplates. Ne balance pas le dos.",
+          "hasFeedback": true,
+          "defaultWeight": 25,
+          "defaultReps": 12,
+          "maxWeight": 55,
+          "restBetweenSets": 60,
+          "alternatives": ["Rowing à la machine avec appui poitrine", "Rowing à la poulie prise large"]
+        },
+        { "phase": "Bloc 1", "type": "rest", "duration": 60 },
+        {
+          "phase": "Bloc 1",
+          "type": "exercise",
+          "name": "Développé épaules à la machine",
+          "chips": ["3 × 12 répétitions"],
+          "tip": "Pousse vers le haut sans hausser les épaules vers les oreilles. Charge légère au début.",
+          "hasFeedback": true,
+          "defaultWeight": 15,
+          "defaultReps": 12,
+          "maxWeight": 35,
+          "restBetweenSets": 60,
+          "alternatives": ["Élévations latérales avec haltères très légers", "Développé épaules aux haltères assis"]
+        },
+        { "phase": "Bloc 1", "type": "rest", "duration": 60 },
+        {
+          "phase": "Bloc 1",
+          "type": "exercise",
+          "name": "Leg curl — ischio-jambiers à la machine",
+          "chips": ["3 × 12 répétitions"],
+          "tip": "Mouvement lent dans les deux sens. Contrôle la remontée, ne laisse pas la charge retomber.",
+          "hasFeedback": true,
+          "defaultWeight": 20,
+          "defaultReps": 12,
+          "maxWeight": 45,
+          "restBetweenSets": 60,
+          "alternatives": ["Pont fessier au sol, une jambe à la fois", "Leg curl une jambe à la fois"]
+        },
+        { "phase": "Bloc 1", "type": "rest", "duration": 60 },
+        {
+          "phase": "Bloc 1",
+          "type": "exercise",
+          "name": "Relevés de genoux assis",
+          "chips": ["3 × 12 répétitions"],
+          "tip": "Assis au bord d'un banc, mains derrière toi, ramène les genoux vers la poitrine. Le ventre travaille, pas les cuisses.",
+          "hasFeedback": true,
+          "defaultReps": 12,
+          "restBetweenSets": 45,
+          "alternatives": ["Rentrer le ventre en position assise, 20 sec", "Relevés de genoux suspendu à la barre"]
+        },
+        {
+          "phase": "Cardio",
+          "type": "exercise",
+          "name": "Vélo d'appartement",
+          "chips": ["10 min", "Allure facile et régulière"],
+          "tip": "Rythme constant. Si tu te sens fatigué au-delà du normal, arrête à 5 minutes — c'est une reprise.",
+          "hasFeedback": false,
+          "isTimed": true,
+          "timedSec": 600
+        },
+        {
+          "phase": "Retour au calme",
+          "type": "exercise",
+          "name": "Étirement des fessiers assis",
+          "chips": ["30 sec par côté"],
+          "tip": "Assis, cheville posée sur le genou opposé, penche le buste vers l'avant.",
+          "hasFeedback": false
+        },
+        {
+          "phase": "Retour au calme",
+          "type": "exercise",
+          "name": "Étirement du dos en torsion allongée",
+          "chips": ["30 sec par côté"],
+          "tip": "Allongé sur le dos, laisse tomber les genoux d'un côté, épaules au sol. Respire.",
+          "hasFeedback": false
+        },
+        {
+          "phase": "Retour au calme",
+          "type": "exercise",
+          "name": "Étirement des mollets contre un mur",
+          "chips": ["30 sec par côté"],
+          "tip": "Jambe arrière tendue, talon au sol, avance le bassin.",
+          "hasFeedback": false
+        },
+        {
+          "phase": "Retour au calme",
+          "type": "exercise",
+          "name": "Respiration allongée",
+          "chips": ["60 sec"],
+          "tip": "Allongé, une main sur le ventre. Inspire 4 secondes, expire 6 secondes. Ça fait redescendre le cœur.",
+          "hasFeedback": false
+        }
+      ]
+    }
+  }
+}

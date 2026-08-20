@@ -239,8 +239,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     </div>
   </div>
   <div>
-    <div class="section-label">Objectif actuel</div>
-    <div class="objective-display" id="objectiveDisplay">Crée un programme pour commencer</div>
+    <div class="section-label">Programme actif</div>
+    <div class="objective-display" id="objectiveDisplay" onclick="showProgramsScreen()">Crée un programme pour commencer</div>
+    <div id="switchHint" style="font-size:12px;color:var(--accent);margin-top:6px;display:none;cursor:pointer" onclick="showProgramsScreen()"></div>
   </div>
   <div>
     <div class="section-label">Séances par semaine</div>
@@ -281,6 +282,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       Importer
     </button>
   </div>
+  <button class="btn-secondary" onclick="showProgramsScreen()">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:middle;margin-right:6px"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+    Mes programmes
+  </button>
   <button class="btn-secondary" onclick="showHistoryScreen()">
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:middle;margin-right:6px"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
     Historique
@@ -451,6 +456,20 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
   </div>
 </div>
 
+<!-- PROGRAMS -->
+<div id="s-programs" class="screen">
+  <div style="padding:48px 24px 40px;gap:16px;display:flex;flex-direction:column;flex:1">
+    <button class="btn-back" onclick="showScreen('s-home')">← Retour</button>
+    <div>
+      <div class="section-label">Bibliothèque</div>
+      <div style="font-size:26px;font-weight:900;letter-spacing:-.03em">Mes programmes</div>
+      <div style="font-size:14px;color:var(--muted);margin-top:8px;line-height:1.6">Tous tes programmes sont gardés. Active celui que tu veux suivre en ce moment.</div>
+    </div>
+    <div id="programsList" style="display:flex;flex-direction:column;gap:12px"></div>
+    <button class="btn-secondary" onclick="showScreen('s-import')">Importer un nouveau programme</button>
+  </div>
+</div>
+
 <!-- HISTORY -->
 <div id="s-history" class="screen">
   <div style="padding:48px 24px 40px;gap:16px;display:flex;flex-direction:column;flex:1">
@@ -512,6 +531,10 @@ function getStepsForSeance(type) {
 }
 
 function loadProgram() {
+  libMigrate();
+  const activeId = localStorage.getItem(ACTIVE_KEY);
+  const lib = libRead();
+  if (activeId && lib[activeId]) localStorage.setItem('df_program', JSON.stringify(lib[activeId]));
   const raw = localStorage.getItem('df_program');
   if (raw) { try { program = JSON.parse(raw); } catch(e) { program = null; } }
   updateHomeUI();
@@ -522,14 +545,19 @@ function updateHomeUI() {
   const banner = document.getElementById('noProgramBanner');
   const obj = document.getElementById('objectiveDisplay');
   const btn = document.getElementById('btnStart');
+  const hint = document.getElementById('switchHint');
   if (!program) {
     banner.style.display = 'block';
-    obj.textContent = 'Crée un programme pour commencer';
+    obj.textContent = 'Crée ou importe un programme pour commencer';
     btn.disabled = true; btn.style.opacity = '.4';
+    hint.style.display = 'none';
   } else {
     banner.style.display = 'none';
     obj.textContent = program.objective || program.name;
     btn.disabled = false; btn.style.opacity = '1';
+    const nb = Object.keys(libRead()).length;
+    hint.textContent = (program.name || 'Programme') + (nb > 1 ? ' · appuie pour changer de programme' : '');
+    hint.style.display = 'block';
   }
   if (program) {
     ['A','B'].forEach(t => {
@@ -546,6 +574,134 @@ function updateHomeUI() {
     document.getElementById('currentProgramName').textContent = program.name;
     document.getElementById('currentProgramObj').textContent = program.objective||'';
   } else { info.style.display = 'none'; }
+}
+
+// ── BIBLIOTHÈQUE DE PROGRAMMES ──
+// df_programs = { id: programme }  ·  df_active = id du programme suivi
+// df_program reste le miroir du programme actif : tout le reste de l'app continue de le lire.
+const LIB_KEY = 'df_programs';
+const ACTIVE_KEY = 'df_active';
+
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+    ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function libSlug(txt) {
+  const s = String(txt || 'programme').toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  return s || 'programme';
+}
+
+function libRead() {
+  try { return JSON.parse(localStorage.getItem(LIB_KEY)) || {}; } catch(e) { return {}; }
+}
+function libWrite(lib) { localStorage.setItem(LIB_KEY, JSON.stringify(lib)); }
+
+function libSave(prog, id) {
+  if (!prog || !prog.seances) return null;
+  const key = libSlug(id || prog.name);
+  const lib = libRead();
+  lib[key] = prog;
+  libWrite(lib);
+  return key;
+}
+
+function libActivate(id) {
+  const lib = libRead();
+  const prog = lib[id];
+  if (!prog) return false;
+  localStorage.setItem(ACTIVE_KEY, id);
+  localStorage.setItem('df_program', JSON.stringify(prog));
+  program = prog;
+  updateHomeUI();
+  return true;
+}
+
+// Reprend un ancien df_program isolé et le fait entrer dans la bibliothèque.
+function libMigrate() {
+  const lib = libRead();
+  if (Object.keys(lib).length) return;
+  const raw = localStorage.getItem('df_program');
+  if (!raw) return;
+  try {
+    const prog = JSON.parse(raw);
+    const id = libSave(prog, prog.name);
+    if (id) localStorage.setItem(ACTIVE_KEY, id);
+  } catch(e) {}
+}
+
+function showProgramsScreen() {
+  const lib = libRead();
+  const active = localStorage.getItem(ACTIVE_KEY);
+  const ids = Object.keys(lib);
+  const el = document.getElementById('programsList');
+  if (!ids.length) {
+    el.innerHTML = '<div style="font-size:14px;color:var(--muted);line-height:1.6">Aucun programme enregistré pour l\'instant. Utilise « Importer un nouveau programme ».</div>';
+  } else {
+    el.innerHTML = ids.map(id => {
+      const p = lib[id];
+      const on = id === active;
+      return '<div class="seance-card' + (on ? ' recommended' : '') + '" style="cursor:default">'
+        + '<div class="seance-header"><div class="seance-name" style="font-size:18px">' + esc(p.name || id) + '</div>'
+        + (on ? '<div class="rec-badge">Actif</div>' : '') + '</div>'
+        + '<div class="seance-desc">' + esc(p.objective || '') + '</div>'
+        + '<div style="display:flex;gap:8px;margin-top:4px">'
+        + (on ? '' : '<button class="btn-secondary" style="flex:1" onclick="activateProgram(\'' + id + '\')">Suivre celui-ci</button>')
+        + '<button class="btn-secondary" style="flex:0 0 auto;padding:15px 18px;color:var(--red);border-color:var(--red)" onclick="deleteProgram(\'' + id + '\')">Supprimer</button>'
+        + '</div></div>';
+    }).join('');
+  }
+  showScreen('s-programs');
+}
+
+function activateProgram(id) {
+  if (libActivate(id)) { checkDeload(); showScreen('s-home'); }
+}
+
+function deleteProgram(id) {
+  const lib = libRead();
+  const name = (lib[id] && lib[id].name) || id;
+  if (!confirm('Supprimer « ' + name + ' » ? L\'historique des séances est conservé.')) return;
+  delete lib[id];
+  libWrite(lib);
+  if (localStorage.getItem(ACTIVE_KEY) === id) {
+    const rest = Object.keys(lib);
+    if (rest.length) { libActivate(rest[0]); }
+    else {
+      localStorage.removeItem(ACTIVE_KEY);
+      localStorage.removeItem('df_program');
+      program = null;
+      updateHomeUI();
+    }
+  }
+  showProgramsScreen();
+}
+
+// Charge des programmes livrés avec l'app : ?charger=nom1,nom2 → ./programmes/nom.json
+function loadProgramsFromUrl() {
+  const names = (new URLSearchParams(location.search).get('charger') || '')
+    .split(',').map(s => s.trim()).filter(s => /^[a-z0-9-]+$/i.test(s));
+  if (!names.length) return Promise.resolve(false);
+  return Promise.all(names.map(n =>
+    fetch('./programmes/' + n + '.json')
+      .then(r => r.ok ? r.json() : null)
+      .then(p => ({ name: n, prog: p }))
+      .catch(() => ({ name: n, prog: null }))
+  )).then(res => {
+    let first = null;
+    res.forEach(r => {
+      if (!r.prog) return;
+      const id = libSave(r.prog, r.name);
+      if (id && !first) first = id;
+    });
+    // Ne bouscule pas un programme déjà suivi : on n'active que si rien n'est actif.
+    const active = localStorage.getItem(ACTIVE_KEY);
+    if (first && (!active || !libRead()[active])) libActivate(first);
+    history.replaceState({}, '', location.pathname);
+    return !!first;
+  });
 }
 
 // ── DELOAD ──
@@ -1162,8 +1318,8 @@ function importProgram() {
   try {
     const parsed = JSON.parse(raw);
     if (!parsed.seances) throw new Error('"seances" manquant');
-    localStorage.setItem('df_program', JSON.stringify(parsed));
-    program = parsed;
+    const id = libSave(parsed, parsed.name);
+    libActivate(id);
     status.className='import-status ok'; status.textContent='✓ Programme "'+( parsed.name||'Sans nom')+'" chargé.';
     updateHomeUI();
     setTimeout(()=>showScreen('s-home'),1000);
@@ -1172,8 +1328,7 @@ function importProgram() {
 
 function loadDefaultProgram() {
   fetch('./program-default.json').then(r=>r.json()).then(data=>{
-    localStorage.setItem('df_program',JSON.stringify(data));
-    program=data; updateHomeUI();
+    libActivate(libSave(data, data.name || 'programme-par-defaut'));
     const s=document.getElementById('importStatus');
     s.className='import-status ok'; s.textContent='✓ Programme par défaut chargé.';
     setTimeout(()=>showScreen('s-home'),1000);
@@ -1209,7 +1364,7 @@ function showHistoryScreen() {
 
 // ── INIT ──
 window.addEventListener('load', () => {
-  loadProgram();
+  loadProgramsFromUrl().then(() => loadProgram());
   const savedFreq = parseInt(localStorage.getItem('df_freq')||'1');
   selectFreq(savedFreq);
   renderOnboardProgress();

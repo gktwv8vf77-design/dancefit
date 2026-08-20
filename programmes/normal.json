@@ -1,0 +1,357 @@
+{
+  "version": "1.0",
+  "name": "Perte de gras & tonification",
+  "objective": "Perdre du gras et se tonifier, avec un travail renforcé du torse, du ventre et du dos.",
+  "seances": {
+    "A": {
+      "name": "Corps entier — Haut & gainage",
+      "desc": "Quatre exercices de force, un circuit de gainage, puis du cardio en intervalles.",
+      "chips": ["⏱ 60 min", "💪 Haut du corps & ventre"],
+      "steps": [
+        {
+          "phase": "Échauffement",
+          "type": "exercise",
+          "name": "Rameur",
+          "chips": ["5 min", "Allure modérée"],
+          "tip": "Monte progressivement le rythme. À la fin, tu dois avoir chaud et le souffle un peu plus court.",
+          "hasFeedback": false,
+          "isTimed": true,
+          "timedSec": 300
+        },
+        {
+          "phase": "Échauffement",
+          "type": "exercise",
+          "name": "Fente avec rotation du buste",
+          "chips": ["8 par côté"],
+          "tip": "En position de fente, tourne le buste vers la jambe avant. Ça ouvre les hanches et le dos.",
+          "hasFeedback": false
+        },
+        {
+          "phase": "Échauffement",
+          "type": "exercise",
+          "name": "Rotations externes à l'élastique",
+          "chips": ["15 répétitions"],
+          "tip": "Coudes collés au corps, écarte les mains vers l'extérieur. Protège les épaules avant le travail lourd.",
+          "hasFeedback": false
+        },
+        {
+          "phase": "Échauffement",
+          "type": "exercise",
+          "name": "Squat à vide",
+          "chips": ["15 répétitions"],
+          "tip": "Descends plus bas à chaque répétition, sans jamais forcer. Genoux dans l'axe des pieds.",
+          "hasFeedback": false
+        },
+        {
+          "phase": "Bloc 1",
+          "type": "exercise",
+          "name": "Presse à cuisses",
+          "chips": ["4 × 12 répétitions"],
+          "tip": "Choisis un poids où les 2 dernières répétitions sont difficiles mais propres. Les jambes brûlent beaucoup de calories : ne néglige pas cet exercice même si l'objectif est le ventre.",
+          "hasFeedback": true,
+          "defaultWeight": 60,
+          "defaultReps": 12,
+          "maxWeight": 140,
+          "restBetweenSets": 75,
+          "alternatives": ["Presse à cuisses plus léger, 15 répétitions", "Squat à la barre guidée"]
+        },
+        { "phase": "Bloc 1", "type": "rest", "duration": 75 },
+        {
+          "phase": "Bloc 1",
+          "type": "exercise",
+          "name": "Tirage vertical poitrine",
+          "chips": ["4 × 10 répétitions"],
+          "tip": "Tire la barre vers le haut de la poitrine, coudes vers le bas et vers l'arrière. C'est le dos qui travaille.",
+          "hasFeedback": true,
+          "defaultWeight": 35,
+          "defaultReps": 10,
+          "maxWeight": 75,
+          "restBetweenSets": 75,
+          "alternatives": ["Tirage vertical prise serrée, plus léger", "Traction assistée à la machine"]
+        },
+        { "phase": "Bloc 1", "type": "rest", "duration": 75 },
+        {
+          "phase": "Bloc 1",
+          "type": "exercise",
+          "name": "Développé couché aux haltères",
+          "chips": ["4 × 10 répétitions"],
+          "tip": "Le poids indiqué est celui d'UN haltère, pas des deux. Descends jusqu'à ce que les coudes soient au niveau du banc.",
+          "hasFeedback": true,
+          "defaultWeight": 12,
+          "defaultReps": 10,
+          "maxWeight": 30,
+          "restBetweenSets": 75,
+          "alternatives": ["Développé poitrine à la machine", "Développé couché incliné aux haltères"]
+        },
+        { "phase": "Bloc 1", "type": "rest", "duration": 75 },
+        {
+          "phase": "Bloc 1",
+          "type": "exercise",
+          "name": "Rowing haltère un bras",
+          "chips": ["3 × 10 répétitions par côté"],
+          "tip": "Un genou et une main sur le banc, dos plat. Tire l'haltère le long du corps vers la hanche.",
+          "hasFeedback": true,
+          "defaultWeight": 14,
+          "defaultReps": 10,
+          "maxWeight": 34,
+          "restBetweenSets": 60,
+          "alternatives": ["Rowing à la machine avec appui poitrine", "Rowing haltère sans appui, en fente"]
+        },
+        { "phase": "Bloc 1", "type": "rest", "duration": 60 },
+        {
+          "phase": "Bloc 2",
+          "type": "circuit",
+          "name": "Circuit gainage",
+          "rounds": 3,
+          "exercises": [
+            {
+              "name": "Planche",
+              "chips": ["40 sec"],
+              "tip": "Corps en ligne droite des talons à la tête. Serre le ventre et les fessiers, ne creuse pas le bas du dos."
+            },
+            {
+              "name": "Mountain climbers",
+              "chips": ["30 sec"],
+              "tip": "En position de pompe, ramène les genoux vers la poitrine en alternance. Rythme soutenu mais bassin stable."
+            },
+            {
+              "name": "Dead bug",
+              "chips": ["10 répétitions par côté"],
+              "tip": "Allongé sur le dos, tends bras et jambe opposés en gardant le bas du dos collé au sol."
+            },
+            {
+              "name": "Superman au sol",
+              "chips": ["12 répétitions"],
+              "tip": "À plat ventre, décolle bras et jambes en même temps. Travaille tout l'arrière du dos."
+            }
+          ]
+        },
+        {
+          "phase": "Cardio",
+          "type": "exercise",
+          "name": "Vélo — intervalles",
+          "chips": ["12 min", "1 min soutenu / 2 min facile"],
+          "tip": "Quatre cycles : 1 minute où tu ne peux plus parler, 2 minutes de récupération active. C'est ça qui fait la différence sur le gras.",
+          "hasFeedback": false,
+          "isTimed": true,
+          "timedSec": 720
+        },
+        {
+          "phase": "Retour au calme",
+          "type": "exercise",
+          "name": "Étirement des ischio-jambiers",
+          "chips": ["30 sec par côté"],
+          "tip": "Jambe tendue sur un banc bas, buste vers l'avant, dos droit.",
+          "hasFeedback": false
+        },
+        {
+          "phase": "Retour au calme",
+          "type": "exercise",
+          "name": "Étirement des quadriceps",
+          "chips": ["30 sec par côté"],
+          "tip": "Debout, attrape ta cheville derrière toi, genou pointé vers le sol.",
+          "hasFeedback": false
+        },
+        {
+          "phase": "Retour au calme",
+          "type": "exercise",
+          "name": "Ouverture de poitrine contre un mur",
+          "chips": ["30 sec par côté"],
+          "tip": "Avant-bras contre un cadre de porte, avance le buste jusqu'à sentir l'étirement.",
+          "hasFeedback": false
+        },
+        {
+          "phase": "Retour au calme",
+          "type": "exercise",
+          "name": "Étirement du dos en torsion allongée",
+          "chips": ["30 sec par côté"],
+          "tip": "Allongé, genoux qui tombent d'un côté, épaules plaquées au sol.",
+          "hasFeedback": false
+        },
+        {
+          "phase": "Retour au calme",
+          "type": "exercise",
+          "name": "Posture de l'enfant",
+          "chips": ["45 sec"],
+          "tip": "Front au sol, bras tendus devant. Respire lentement pour faire redescendre le cœur.",
+          "hasFeedback": false
+        }
+      ]
+    },
+    "B": {
+      "name": "Corps entier — Bas du corps & dos",
+      "desc": "Chaîne arrière, épaules et dos, puis un circuit ventre-dos et du cardio en côte.",
+      "chips": ["⏱ 60 min", "🔥 Bas du corps & dos"],
+      "steps": [
+        {
+          "phase": "Échauffement",
+          "type": "exercise",
+          "name": "Tapis de course — marche rapide",
+          "chips": ["5 min", "Inclinaison 4 %"],
+          "tip": "Marche soutenue. L'objectif est d'avoir chaud avant de toucher aux haltères.",
+          "hasFeedback": false,
+          "isTimed": true,
+          "timedSec": 300
+        },
+        {
+          "phase": "Échauffement",
+          "type": "exercise",
+          "name": "Pont fessier au sol",
+          "chips": ["15 répétitions"],
+          "tip": "Monte le bassin en serrant les fessiers, marque une seconde en haut. Réveille la chaîne arrière.",
+          "hasFeedback": false
+        },
+        {
+          "phase": "Échauffement",
+          "type": "exercise",
+          "name": "Chat-chameau au sol",
+          "chips": ["10 mouvements"],
+          "tip": "Arrondis puis creuse le dos lentement. Prépare la colonne au soulevé de terre.",
+          "hasFeedback": false
+        },
+        {
+          "phase": "Échauffement",
+          "type": "exercise",
+          "name": "Fentes alternées sans charge",
+          "chips": ["10 par côté"],
+          "tip": "Grand pas en avant, genou arrière vers le sol. Buste droit.",
+          "hasFeedback": false
+        },
+        {
+          "phase": "Bloc 1",
+          "type": "exercise",
+          "name": "Soulevé de terre roumain aux haltères",
+          "chips": ["4 × 10 répétitions"],
+          "tip": "Le dos reste PLAT du début à la fin. Pousse les fesses vers l'arrière, les haltères glissent le long des cuisses. Si le dos s'arrondit, le poids est trop lourd.",
+          "hasFeedback": true,
+          "defaultWeight": 14,
+          "defaultReps": 10,
+          "maxWeight": 40,
+          "restBetweenSets": 75,
+          "alternatives": ["Soulevé de terre roumain à la barre guidée, plus léger", "Soulevé de terre roumain sur une jambe"]
+        },
+        { "phase": "Bloc 1", "type": "rest", "duration": 75 },
+        {
+          "phase": "Bloc 1",
+          "type": "exercise",
+          "name": "Développé épaules assis aux haltères",
+          "chips": ["4 × 10 répétitions"],
+          "tip": "Le poids indiqué est celui d'UN haltère. Dos calé contre le dossier, ne cambre pas pour aider.",
+          "hasFeedback": true,
+          "defaultWeight": 10,
+          "defaultReps": 10,
+          "maxWeight": 24,
+          "restBetweenSets": 75,
+          "alternatives": ["Développé épaules à la machine", "Développé épaules debout"]
+        },
+        { "phase": "Bloc 1", "type": "rest", "duration": 75 },
+        {
+          "phase": "Bloc 1",
+          "type": "exercise",
+          "name": "Rowing assis à la poulie basse",
+          "chips": ["4 × 12 répétitions"],
+          "tip": "Serre les omoplates en fin de mouvement et marque une pause d'une seconde. C'est ce qui redresse la posture.",
+          "hasFeedback": true,
+          "defaultWeight": 35,
+          "defaultReps": 12,
+          "maxWeight": 75,
+          "restBetweenSets": 75,
+          "alternatives": ["Rowing à la machine avec appui poitrine", "Rowing à la poulie prise inversée"]
+        },
+        { "phase": "Bloc 1", "type": "rest", "duration": 75 },
+        {
+          "phase": "Bloc 1",
+          "type": "exercise",
+          "name": "Fentes marchées avec haltères",
+          "chips": ["3 × 10 pas par côté"],
+          "tip": "Un haltère dans chaque main, bras relâchés. Grands pas, genou arrière proche du sol. Excellent pour la dépense d'énergie.",
+          "hasFeedback": true,
+          "defaultWeight": 8,
+          "defaultReps": 10,
+          "maxWeight": 20,
+          "restBetweenSets": 60,
+          "alternatives": ["Fentes statiques sans charge", "Fentes marchées avec haltères plus lourds"]
+        },
+        { "phase": "Bloc 1", "type": "rest", "duration": 60 },
+        {
+          "phase": "Bloc 2",
+          "type": "circuit",
+          "name": "Circuit ventre & dos",
+          "rounds": 3,
+          "exercises": [
+            {
+              "name": "Relevés de jambes au sol",
+              "chips": ["12 répétitions"],
+              "tip": "Mains sous les fesses, jambes tendues, descends sans toucher le sol. Bas du dos plaqué."
+            },
+            {
+              "name": "Gainage latéral",
+              "chips": ["30 sec par côté"],
+              "tip": "Sur un avant-bras, corps en ligne, hanche haute. Travaille les côtés du ventre."
+            },
+            {
+              "name": "Russian twist",
+              "chips": ["20 rotations"],
+              "tip": "Assis, buste incliné en arrière, tourne les épaules d'un côté à l'autre. Ajoute un poids si c'est facile."
+            },
+            {
+              "name": "Extension du buste au banc",
+              "chips": ["12 répétitions"],
+              "tip": "Sur le banc à lombaires, remonte jusqu'à l'alignement du corps — pas au-delà. Renforce le bas du dos."
+            }
+          ]
+        },
+        {
+          "phase": "Cardio",
+          "type": "exercise",
+          "name": "Tapis incliné — marche rapide",
+          "chips": ["12 min", "Inclinaison 8 à 10 %"],
+          "tip": "Marche en côte plutôt que courir : même dépense, moins de choc sur les genoux. Ne t'accroche pas aux poignées.",
+          "hasFeedback": false,
+          "isTimed": true,
+          "timedSec": 720
+        },
+        {
+          "phase": "Retour au calme",
+          "type": "exercise",
+          "name": "Étirement des fessiers assis",
+          "chips": ["30 sec par côté"],
+          "tip": "Cheville sur le genou opposé, buste vers l'avant.",
+          "hasFeedback": false
+        },
+        {
+          "phase": "Retour au calme",
+          "type": "exercise",
+          "name": "Étirement des ischio-jambiers",
+          "chips": ["30 sec par côté"],
+          "tip": "Jambe tendue sur un banc bas, dos droit. Indispensable après un soulevé de terre.",
+          "hasFeedback": false
+        },
+        {
+          "phase": "Retour au calme",
+          "type": "exercise",
+          "name": "Étirement des mollets contre un mur",
+          "chips": ["30 sec par côté"],
+          "tip": "Jambe arrière tendue, talon au sol, avance le bassin.",
+          "hasFeedback": false
+        },
+        {
+          "phase": "Retour au calme",
+          "type": "exercise",
+          "name": "Étirement du dos en torsion allongée",
+          "chips": ["30 sec par côté"],
+          "tip": "Genoux qui tombent d'un côté, épaules au sol, respiration lente.",
+          "hasFeedback": false
+        },
+        {
+          "phase": "Retour au calme",
+          "type": "exercise",
+          "name": "Respiration allongée",
+          "chips": ["60 sec"],
+          "tip": "Inspire 4 secondes, expire 6 secondes. Marque la fin de la séance.",
+          "hasFeedback": false
+        }
+      ]
+    }
+  }
+}
