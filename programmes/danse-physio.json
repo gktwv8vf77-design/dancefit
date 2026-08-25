@@ -1,0 +1,109 @@
+{
+  "version": "1.0",
+  "name": "Danse & Physio",
+  "objective": "Renforcer la nuque et les trapèzes selon le protocole du physio, sans lâcher le travail jambes, gainage et chevilles pour la danse.",
+  "seances": {
+    "A": {
+      "name": "Physio + Jambes",
+      "desc": "Le bloc physio en ouverture, puis squats, fentes et deadlifts pour la danse.",
+      "chips": ["⏱ 45 min", "🩺 Physio", "💪 Jambes"],
+      "steps": [
+        {"phase":"Échauffement","type":"exercise","name":"Cercles de hanches & mobilité chevilles","chips":["2 min","Poids du corps"],"tip":"Hanches : grands cercles dans les deux sens. Chevilles : dessine des cercles avec le pied.","hasFeedback":false},
+        {"phase":"Échauffement","type":"exercise","name":"Cercles d'épaules & ouverture de poitrine","chips":["1 min"],"tip":"Grands cercles des épaules vers l'arrière, puis mains derrière la tête et coudes ouverts. Prépare la nuque et le haut du dos au bloc physio.","hasFeedback":false},
+        {"phase":"Échauffement","type":"exercise","name":"Fentes au poids du corps","chips":["1 min","Alternées"],"tip":"Posture droite, genou avant à 90°.","hasFeedback":false},
+
+        {"phase":"Physio — nuque & trapèzes","type":"exercise","name":"Tirage horizontal assis","chips":["3 × 10 répétitions","12,5 kg"],"tip":"Assise face à la machine, bras tendus devant. Tire la poignée vers le bas du ventre en emmenant les coudes loin derrière, puis reviens lentement sans laisser les épaules partir vers l'avant. Ce sont les muscles entre les omoplates qui travaillent, pas les bras.","hasFeedback":true,"defaultWeight":12.5,"defaultReps":10,"maxWeight":0,"restBetweenSets":45,"alternatives":["Même exercice, 2,5 kg de moins","Même exercice, 2,5 kg de plus"]},
+        {"phase":"Physio — nuque & trapèzes","type":"rest","duration":45},
+        {"phase":"Physio — nuque & trapèzes","type":"exercise","name":"Du V au W à plat ventre","chips":["3 × 10 répétitions"],"tip":"À plat ventre, front posé, bras tendus devant en V. Décolle les bras, puis ramène les coudes vers l'arrière et vers le bas jusqu'à former un W. Le mouvement part du dos, pas des mains. Trapèzes du bas.","hasFeedback":true,"defaultWeight":0,"defaultReps":10,"maxWeight":0,"restBetweenSets":45,"alternatives":["Même exercice, bras glissant au sol","Même exercice, 2 sec de pause en position W"]},
+        {"phase":"Physio — nuque & trapèzes","type":"rest","duration":45},
+        {"phase":"Physio — nuque & trapèzes","type":"exercise","name":"Nuque droite contre élastique","chips":["3 × 10 répétitions","Élastique"],"tip":"Debout, l'élastique posé sur le haut de la tête, une extrémité dans chaque main. Tire vers le bas : l'élastique cherche à écraser et à faire basculer ta tête, et ton travail est de garder la nuque longue et parfaitement droite. La tête ne bouge pas.","hasFeedback":true,"defaultWeight":0,"defaultReps":10,"maxWeight":0,"restBetweenSets":45,"alternatives":["Élastique plus souple","Élastique plus dur"]},
+        {"phase":"Physio — nuque & trapèzes","type":"rest","duration":60},
+
+        {"phase":"Bloc jambes","type":"exercise","name":"Squat sumo","chips":["3 × 12 reps","8 kg"],"tip":"Pieds larges, pointes à 45°. Haltère à deux mains. Fessiers jusqu'aux genoux.","hasFeedback":true,"defaultWeight":8,"defaultReps":12,"maxWeight":20,"restBetweenSets":60,"alternatives":["Squat goblet","Leg press machine"]},
+        {"phase":"Bloc jambes","type":"rest","duration":60},
+        {"phase":"Bloc jambes","type":"exercise","name":"Romanian deadlift unilatéral","chips":["3 × 10 / jambe","6 kg"],"tip":"Jambe libre vers l'arrière, dos droit. Sens l'étirement dans l'arrière de la cuisse.","hasFeedback":true,"defaultWeight":6,"defaultReps":10,"maxWeight":16,"restBetweenSets":60,"alternatives":["Romanian deadlift bilateral","Curl ischio couché"]},
+        {"phase":"Bloc jambes","type":"rest","duration":60},
+        {"phase":"Bloc jambes","type":"exercise","name":"Fentes bulgares","chips":["3 × 10 / jambe","5 kg"],"tip":"Pied arrière sur banc. Descends le genou arrière vers le sol.","hasFeedback":true,"defaultWeight":5,"defaultReps":10,"maxWeight":16,"restBetweenSets":60,"alternatives":["Fentes marchées","Fentes statiques"]},
+        {"phase":"Bloc jambes","type":"rest","duration":60},
+        {"phase":"Bloc jambes","type":"exercise","name":"Hip thrust au sol","chips":["3 × 12 reps","Poids du corps"],"tip":"Dos au sol, pousse le bassin vers le haut. Serre les fessiers en haut.","hasFeedback":true,"defaultWeight":0,"defaultReps":12,"maxWeight":20,"restBetweenSets":60,"alternatives":["Pont fessier simple","Donkey kicks"]},
+        {"phase":"Bloc jambes","type":"rest","duration":60},
+
+        {"phase":"Bloc ventre","type":"exercise","name":"Dead bug","chips":["3 × 10 reps"],"tip":"Bras vers le plafond, genoux à 90°. Descends bras droit + jambe gauche ensemble. Le bas du dos reste collé au sol.","hasFeedback":true,"defaultWeight":0,"defaultReps":10,"maxWeight":0,"restBetweenSets":45,"alternatives":["Dead bug jambes seules","Dead bug avec jambes tendues"]},
+        {"phase":"Bloc ventre","type":"rest","duration":45},
+        {"phase":"Bloc ventre","type":"exercise","name":"Pont fessier unilatéral","chips":["3 × 12 / jambe"],"tip":"Une jambe tendue, pousse avec l'autre. Bassin stable.","hasFeedback":true,"defaultWeight":0,"defaultReps":12,"maxWeight":10,"restBetweenSets":45,"alternatives":["Pont fessier bilateral","Hip thrust au sol"]},
+        {"phase":"Bloc ventre","type":"rest","duration":45},
+
+        {"phase":"Retour au calme","type":"exercise","name":"Étirement des trapèzes","chips":["1 min / côté"],"tip":"Assise ou debout, amène doucement l'oreille vers l'épaule sans monter l'épaule. Pose la main sur le côté de la tête pour un tout petit peu plus d'étirement. Jamais de traction forte.","hasFeedback":false},
+        {"phase":"Retour au calme","type":"exercise","name":"Étirement quadriceps","chips":["1 min / jambe"],"tip":"Debout, tire le pied vers les fessiers.","hasFeedback":false},
+        {"phase":"Retour au calme","type":"exercise","name":"Étirement ischio-jambiers","chips":["1 min / jambe"],"tip":"Assise, jambe tendue, penche le buste. Dos droit.","hasFeedback":false},
+        {"phase":"Retour au calme","type":"exercise","name":"Étirement fléchisseurs de hanche","chips":["1 min / côté"],"tip":"Fente basse, genou arrière au sol. Pousse le bassin vers l'avant.","hasFeedback":false},
+        {"phase":"Retour au calme","type":"exercise","name":"Respiration & relâchement","chips":["2 min"],"tip":"Inspire 4 sec, expire 6 sec. Relâche les épaules à chaque expiration.","hasFeedback":false}
+      ]
+    },
+
+    "B": {
+      "name": "Physio + Gainage & mobilité",
+      "desc": "Le bloc physio en ouverture, puis core, hanches et chevilles.",
+      "chips": ["⏱ 45 min", "🩺 Physio", "🎯 Core"],
+      "steps": [
+        {"phase":"Échauffement","type":"exercise","name":"Cercles de hanches & rotation thoracique","chips":["2 min"],"tip":"Hanches : grands cercles. Rotation : assise en tailleur, tourne le buste bras ouverts.","hasFeedback":false},
+        {"phase":"Échauffement","type":"exercise","name":"Chat-vache","chips":["1 min"],"tip":"À quatre pattes. Inspire en creusant (vache), expire en arrondissant (chat). Lent.","hasFeedback":false},
+        {"phase":"Échauffement","type":"exercise","name":"Montées de genoux","chips":["1 min"],"tip":"Lève les genoux alternativement à hauteur des hanches. Buste droit.","hasFeedback":false},
+
+        {"phase":"Physio — nuque & trapèzes","type":"exercise","name":"Menton de haut en bas à quatre pattes","chips":["3 × 10 répétitions","Élastique"],"tip":"À quatre pattes, dos plat, tête dans le prolongement du dos. L'élastique passe derrière le crâne (pas sur la nuque) et descend jusqu'à tes mains. Baisse le menton vers le sol, puis remonte-le jusqu'à ce que la tête soit de nouveau parallèle au sol. Lent, sans à-coup.","hasFeedback":true,"defaultWeight":0,"defaultReps":10,"maxWeight":0,"restBetweenSets":45,"alternatives":["Élastique plus souple","Élastique plus dur"]},
+        {"phase":"Physio — nuque & trapèzes","type":"rest","duration":45},
+        {"phase":"Physio — nuque & trapèzes","type":"exercise","name":"Bras en équerre — décoller les bras","chips":["3 × 10 répétitions"],"tip":"À plat ventre, front posé, bras pliés à angle droit et posés au sol à hauteur d'épaules. Décolle tout le bras du sol — coude ET main ensemble — de quelques centimètres, puis repose. Le ventre reste au sol, pas de cambrure.","hasFeedback":true,"defaultWeight":0,"defaultReps":10,"maxWeight":0,"restBetweenSets":45,"alternatives":["Même exercice, un bras à la fois","Même exercice, 2 sec de pause en haut"]},
+        {"phase":"Physio — nuque & trapèzes","type":"rest","duration":45},
+        {"phase":"Physio — nuque & trapèzes","type":"exercise","name":"Bras en équerre — lever les mains","chips":["3 × 10 répétitions"],"tip":"Même position que l'exercice précédent, mais cette fois les coudes RESTENT posés au sol. Tu ne lèves que les mains, en faisant pivoter l'épaule. Très lentement : si le coude décolle, ce n'est plus le bon exercice.","hasFeedback":true,"defaultWeight":0,"defaultReps":10,"maxWeight":0,"restBetweenSets":45,"alternatives":["Même exercice, un bras à la fois","Même exercice avec un petit poids de 0,5 kg"]},
+        {"phase":"Physio — nuque & trapèzes","type":"rest","duration":60},
+
+        {"phase":"Bloc gainage","type":"exercise","name":"Bird dog","chips":["3 × 10 / côté"],"tip":"À quatre pattes. Tends le bras droit devant et la jambe gauche derrière en même temps, dos immobile. Reviens, puis alterne. Le bassin ne bascule pas.","hasFeedback":true,"defaultWeight":0,"defaultReps":10,"maxWeight":0,"restBetweenSets":45,"alternatives":["Bird dog bras seul","Bird dog avec 3 sec de tenue"]},
+        {"phase":"Bloc gainage","type":"rest","duration":45},
+        {"phase":"Bloc gainage","type":"exercise","name":"Dead bug","chips":["3 × 10 reps"],"tip":"Bras vers le plafond, genoux à 90°. Descends bras droit + jambe gauche ensemble. Le bas du dos reste collé au sol.","hasFeedback":true,"defaultWeight":0,"defaultReps":10,"maxWeight":0,"restBetweenSets":45,"alternatives":["Dead bug jambes seules","Dead bug avec jambes tendues"]},
+        {"phase":"Bloc gainage","type":"rest","duration":45},
+        {"phase":"Bloc gainage","type":"exercise","name":"Planche avant","chips":["3 × 30 sec"],"tip":"Corps aligné, ventre rentré. Pousse le sol pour écarter les omoplates, et surtout : ne monte pas les épaules vers les oreilles. Si la nuque tire, arrête la série.","hasFeedback":true,"defaultWeight":0,"defaultReps":null,"isTimed":true,"timedSec":30,"maxWeight":0,"restBetweenSets":45,"alternatives":["Planche sur les genoux","Planche 45 sec"]},
+        {"phase":"Bloc gainage","type":"rest","duration":60},
+
+        {"phase":"Bloc hanches & chevilles","type":"exercise","name":"Clamshell","chips":["3 × 15 / côté"],"tip":"Allongée sur le côté, genoux pliés. Ouvre le genou du dessus. Bassin immobile.","hasFeedback":true,"defaultWeight":0,"defaultReps":15,"maxWeight":0,"restBetweenSets":45,"alternatives":["Abduction debout","Clamshell avec élastique"]},
+        {"phase":"Bloc hanches & chevilles","type":"rest","duration":45},
+        {"phase":"Bloc hanches & chevilles","type":"exercise","name":"Élévations sur pointes unilatérales","chips":["3 × 15 / pied"],"tip":"Sur une jambe, monte sur la pointe, tiens 2 sec, redescends doucement. Essentiel pour les heels.","hasFeedback":true,"defaultWeight":0,"defaultReps":15,"maxWeight":5,"restBetweenSets":45,"alternatives":["Élévations bilatérales","Marche sur les pointes"]},
+        {"phase":"Bloc hanches & chevilles","type":"rest","duration":45},
+        {"phase":"Bloc hanches & chevilles","type":"exercise","name":"Squat latéral alterné","chips":["3 × 10 / côté"],"tip":"Pas large, glisse sur le côté en pliant un genou, l'autre jambe tendue.","hasFeedback":true,"defaultWeight":0,"defaultReps":10,"maxWeight":8,"restBetweenSets":45,"alternatives":["Squat sumo","Squat au poids du corps"]},
+        {"phase":"Bloc hanches & chevilles","type":"rest","duration":45},
+
+        {"phase":"Retour au calme","type":"exercise","name":"Étirement des trapèzes","chips":["1 min / côté"],"tip":"Amène doucement l'oreille vers l'épaule sans monter l'épaule. Main posée sur le côté de la tête, sans tirer fort.","hasFeedback":false},
+        {"phase":"Retour au calme","type":"exercise","name":"Pigeon au sol","chips":["2 min / côté"],"tip":"Jambe pliée à 90° devant, l'autre tendue derrière. Penche le buste en avant.","hasFeedback":false},
+        {"phase":"Retour au calme","type":"exercise","name":"Étirement mollets & chevilles","chips":["1 min"],"tip":"Appui contre un mur, talon au sol. Puis cercles de chevilles.","hasFeedback":false},
+        {"phase":"Retour au calme","type":"exercise","name":"Respiration & relâchement","chips":["2 min"],"tip":"Inspire 4 sec, expire 6 sec. Relâche les épaules à chaque expiration.","hasFeedback":false}
+      ]
+    },
+
+    "C": {
+      "name": "Physio seule",
+      "desc": "Les six exercices du physio, rien d'autre. La séance des jours courts.",
+      "chips": ["⏱ 25 min", "🩺 Nuque & trapèzes"],
+      "steps": [
+        {"phase":"Échauffement","type":"exercise","name":"Cercles d'épaules & ouverture de poitrine","chips":["2 min"],"tip":"Grands cercles des épaules vers l'arrière, puis mains derrière la tête et coudes ouverts. Respire lentement.","hasFeedback":false},
+        {"phase":"Échauffement","type":"exercise","name":"Chat-vache","chips":["1 min"],"tip":"À quatre pattes. Inspire en creusant, expire en arrondissant. Emmène le mouvement jusque dans la nuque.","hasFeedback":false},
+
+        {"phase":"Physio — nuque","type":"exercise","name":"Nuque droite contre élastique","chips":["3 × 10 répétitions","Élastique"],"tip":"Debout, l'élastique posé sur le haut de la tête, une extrémité dans chaque main. Tire vers le bas : l'élastique cherche à écraser et à faire basculer ta tête, et ton travail est de garder la nuque longue et parfaitement droite. La tête ne bouge pas.","hasFeedback":true,"defaultWeight":0,"defaultReps":10,"maxWeight":0,"restBetweenSets":40,"alternatives":["Élastique plus souple","Élastique plus dur"]},
+        {"phase":"Physio — nuque","type":"rest","duration":40},
+        {"phase":"Physio — nuque","type":"exercise","name":"Menton de haut en bas à quatre pattes","chips":["3 × 10 répétitions","Élastique"],"tip":"À quatre pattes, dos plat, tête dans le prolongement du dos. L'élastique passe derrière le crâne (pas sur la nuque) et descend jusqu'à tes mains. Baisse le menton vers le sol, puis remonte-le jusqu'à ce que la tête soit de nouveau parallèle au sol. Lent, sans à-coup.","hasFeedback":true,"defaultWeight":0,"defaultReps":10,"maxWeight":0,"restBetweenSets":40,"alternatives":["Élastique plus souple","Élastique plus dur"]},
+        {"phase":"Physio — nuque","type":"rest","duration":50},
+
+        {"phase":"Physio — trapèzes & épaules","type":"exercise","name":"Tirage horizontal assis","chips":["3 × 10 répétitions","12,5 kg"],"tip":"Assise face à la machine, bras tendus devant. Tire la poignée vers le bas du ventre en emmenant les coudes loin derrière, puis reviens lentement sans laisser les épaules partir vers l'avant. Ce sont les muscles entre les omoplates qui travaillent, pas les bras.","hasFeedback":true,"defaultWeight":12.5,"defaultReps":10,"maxWeight":0,"restBetweenSets":40,"alternatives":["Même exercice, 2,5 kg de moins","Même exercice, 2,5 kg de plus"]},
+        {"phase":"Physio — trapèzes & épaules","type":"rest","duration":40},
+        {"phase":"Physio — trapèzes & épaules","type":"exercise","name":"Du V au W à plat ventre","chips":["3 × 10 répétitions"],"tip":"À plat ventre, front posé, bras tendus devant en V. Décolle les bras, puis ramène les coudes vers l'arrière et vers le bas jusqu'à former un W. Le mouvement part du dos, pas des mains. Trapèzes du bas.","hasFeedback":true,"defaultWeight":0,"defaultReps":10,"maxWeight":0,"restBetweenSets":40,"alternatives":["Même exercice, bras glissant au sol","Même exercice, 2 sec de pause en position W"]},
+        {"phase":"Physio — trapèzes & épaules","type":"rest","duration":40},
+        {"phase":"Physio — trapèzes & épaules","type":"exercise","name":"Bras en équerre — décoller les bras","chips":["3 × 10 répétitions"],"tip":"À plat ventre, front posé, bras pliés à angle droit et posés au sol à hauteur d'épaules. Décolle tout le bras du sol — coude ET main ensemble — de quelques centimètres, puis repose. Le ventre reste au sol, pas de cambrure.","hasFeedback":true,"defaultWeight":0,"defaultReps":10,"maxWeight":0,"restBetweenSets":40,"alternatives":["Même exercice, un bras à la fois","Même exercice, 2 sec de pause en haut"]},
+        {"phase":"Physio — trapèzes & épaules","type":"rest","duration":40},
+        {"phase":"Physio — trapèzes & épaules","type":"exercise","name":"Bras en équerre — lever les mains","chips":["3 × 10 répétitions"],"tip":"Même position que l'exercice précédent, mais cette fois les coudes RESTENT posés au sol. Tu ne lèves que les mains, en faisant pivoter l'épaule. Très lentement : si le coude décolle, ce n'est plus le bon exercice.","hasFeedback":true,"defaultWeight":0,"defaultReps":10,"maxWeight":0,"restBetweenSets":40,"alternatives":["Même exercice, un bras à la fois","Même exercice avec un petit poids de 0,5 kg"]},
+        {"phase":"Physio — trapèzes & épaules","type":"rest","duration":40},
+
+        {"phase":"Retour au calme","type":"exercise","name":"Étirement des trapèzes","chips":["1 min / côté"],"tip":"Amène doucement l'oreille vers l'épaule sans monter l'épaule. Main posée sur le côté de la tête, sans tirer fort.","hasFeedback":false},
+        {"phase":"Retour au calme","type":"exercise","name":"Ouverture de poitrine contre un mur","chips":["1 min / côté"],"tip":"Main à plat sur un mur, bras tendu à hauteur d'épaule, tourne le buste dans l'autre sens.","hasFeedback":false},
+        {"phase":"Retour au calme","type":"exercise","name":"Respiration & relâchement","chips":["2 min"],"tip":"Inspire 4 sec, expire 6 sec. Relâche les épaules à chaque expiration.","hasFeedback":false}
+      ]
+    }
+  }
+}

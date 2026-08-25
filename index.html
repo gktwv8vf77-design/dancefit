@@ -65,6 +65,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .seance-header{display:flex;align-items:center;justify-content:space-between;}
 .seance-letter{width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,var(--accent2),var(--accent));display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:900;color:#fff;}
 .seance-letter.b{background:linear-gradient(135deg,#065f46,#34d399);}
+.seance-letter.c{background:linear-gradient(135deg,#9a3412,#fbbf24);}
+.seance-letter.d{background:linear-gradient(135deg,#1e3a8a,#60a5fa);}
 .rec-badge{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);background:#2d0f5e44;border:1px solid var(--accent);border-radius:20px;padding:3px 10px;}
 .seance-name{font-size:21px;font-weight:800;letter-spacing:-.02em;}
 .seance-desc{font-size:14px;color:var(--muted);line-height:1.5;}
@@ -300,18 +302,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     <div><div class="section-label">Choisir ta séance</div>
       <div style="font-size:28px;font-weight:900;letter-spacing:-.03em;line-height:1.1">Laquelle<br>aujourd'hui ?</div>
     </div>
-    <div class="seance-card recommended" id="pickerA" onclick="launchSeance('A')">
-      <div class="seance-header"><div class="seance-letter">A</div><div class="rec-badge" id="recBadgeA">Recommandée</div></div>
-      <div class="seance-name" id="pickerAName">Séance A</div>
-      <div class="seance-desc" id="pickerADesc"></div>
-      <div class="seance-chips" id="pickerAChips"></div>
-    </div>
-    <div class="seance-card" id="pickerB" onclick="launchSeance('B')">
-      <div class="seance-header"><div class="seance-letter b">B</div><div class="rec-badge" id="recBadgeB" style="display:none">Recommandée</div></div>
-      <div class="seance-name" id="pickerBName">Séance B</div>
-      <div class="seance-desc" id="pickerBDesc"></div>
-      <div class="seance-chips" id="pickerBChips"></div>
-    </div>
+    <div id="pickerCards" style="display:flex;flex-direction:column;gap:24px"></div>
   </div>
 </div>
 
@@ -559,15 +550,7 @@ function updateHomeUI() {
     hint.textContent = (program.name || 'Programme') + (nb > 1 ? ' · appuie pour changer de programme' : '');
     hint.style.display = 'block';
   }
-  if (program) {
-    ['A','B'].forEach(t => {
-      const s = program.seances[t];
-      if (!s) return;
-      document.getElementById('picker'+t+'Name').textContent = s.name;
-      document.getElementById('picker'+t+'Desc').textContent = s.desc;
-      document.getElementById('picker'+t+'Chips').innerHTML = (s.chips||[]).map(c=>`<div class="chip">${c}</div>`).join('');
-    });
-  }
+  if (program) renderPickerCards();
   const info = document.getElementById('currentProgramInfo');
   if (program) {
     info.style.display = 'block';
@@ -861,18 +844,48 @@ ${historySummary}
 function startFlow() {
   if (!program) return;
   localStorage.setItem('df_freq', state.freq);
-  if (state.freq === 1) launchSeance('A');
+  const keys = seanceKeys();
+  if (keys.length === 1) launchSeance(keys[0]);
   else { updatePickerRec(); showScreen('s-picker'); }
 }
 
+// Les séances d'un programme : autant que le JSON en déclare (A, B, C, …).
+function seanceKeys() {
+  return (program && program.seances) ? Object.keys(program.seances) : [];
+}
+
+function renderPickerCards() {
+  const host = document.getElementById('pickerCards');
+  if (!host) return;
+  host.innerHTML = seanceKeys().map(t => {
+    const s = program.seances[t] || {};
+    const cls = t.toLowerCase();
+    return `<div class="seance-card" id="picker${esc(t)}" onclick="launchSeance('${esc(t)}')">
+      <div class="seance-header"><div class="seance-letter ${esc(cls)}">${esc(t)}</div><div class="rec-badge" style="display:none">Recommandée</div></div>
+      <div class="seance-name">${esc(s.name || ('Séance ' + t))}</div>
+      <div class="seance-desc">${esc(s.desc || '')}</div>
+      <div class="seance-chips">${(s.chips||[]).map(c=>`<div class="chip">${esc(c)}</div>`).join('')}</div>
+    </div>`;
+  }).join('');
+}
+
 function updatePickerRec() {
+  renderPickerCards();
+  const keys = seanceKeys();
+  // On alterne uniquement entre A et B : les séances complémentaires (C, …)
+  // ne cassent pas la rotation et ne sont jamais « recommandées ».
+  const rotation = keys.filter(t => t === 'A' || t === 'B');
   const h = JSON.parse(localStorage.getItem('df_history')||'[]');
-  const last = h.length ? h[h.length-1].seance : null;
-  const rec = last === 'A' ? 'B' : 'A';
-  document.getElementById('pickerA').classList.toggle('recommended', rec==='A');
-  document.getElementById('pickerB').classList.toggle('recommended', rec==='B');
-  document.getElementById('recBadgeA').style.display = rec==='A' ? '' : 'none';
-  document.getElementById('recBadgeB').style.display = rec==='B' ? '' : 'none';
+  const lastRot = h.filter(e => rotation.includes(e.seance)).pop();
+  const rec = (lastRot && lastRot.seance === 'A') ? 'B' : 'A';
+  keys.forEach(t => {
+    const card = document.getElementById('picker'+t);
+    if (!card) return;
+    const on = (t === rec);
+    card.classList.toggle('recommended', on);
+    const badge = card.querySelector('.rec-badge');
+    if (badge) badge.style.display = on ? '' : 'none';
+  });
 }
 
 function launchSeance(type) {
