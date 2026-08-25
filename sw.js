@@ -1,4 +1,4 @@
-const CACHE = 'dancefit-v2';
+const CACHE = 'dancefit-v3';
 const ASSETS = [
   './',
   './index.html',
