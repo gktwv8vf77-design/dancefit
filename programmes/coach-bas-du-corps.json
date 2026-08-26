@@ -1,0 +1,43 @@
+{
+  "version": "1.0",
+  "name": "Coach — Bas du corps & Abdos",
+  "objective": "Programme donné par le coach : force et puissance du bas du corps, puis un circuit abdos.",
+  "seances": {
+    "A": {
+      "name": "Bas du corps & Abdos",
+      "desc": "Step up, deux circuits jambes, mollets, puis un circuit abdos en trois tours.",
+      "chips": ["⏱ 55 min", "🦵 Bas du corps", "🔥 Abdos"],
+      "steps": [
+        {"phase":"Échauffement","type":"exercise","name":"Vélo ou rameur","chips":["4 min","Allure modérée"],"tip":"Monte progressivement. À la fin tu dois avoir chaud.","hasFeedback":false,"isTimed":true,"timedSec":240},
+        {"phase":"Échauffement","type":"exercise","name":"Cercles de hanches & mobilité chevilles","chips":["2 min"],"tip":"Les chevilles conditionnent la profondeur du squat. Ne saute pas cette étape.","hasFeedback":false},
+        {"phase":"Échauffement","type":"exercise","name":"Squat à vide","chips":["15 répétitions"],"tip":"Descends un peu plus bas à chaque répétition.","hasFeedback":false},
+        {"phase":"Échauffement","type":"exercise","name":"Pont fessier au sol","chips":["15 répétitions"],"tip":"Réveille les fessiers avant le step up.","hasFeedback":false},
+
+        {"phase":"Bloc 1 — Step up","type":"exercise","name":"Step up","chips":["3 × 12 / jambe","Poids du corps"],"tip":"Tout le poids dans le talon de la jambe qui est sur le banc. Serre le fessier pour empêcher le genou de partir vers l'intérieur : c'est lui qui tient le genou droit, pas la cuisse.","hasFeedback":true,"defaultWeight":0,"defaultReps":12,"maxWeight":16,"restBetweenSets":60,"alternatives":["Step up sur une marche plus basse","Step up avec haltères"]},
+        {"phase":"Bloc 1 — Step up","type":"rest","duration":90},
+
+        {"phase":"Circuit 1 — Force & puissance","type":"exercise","name":"Squat complet, 3 sec en bas","chips":["3 tours × 10 reps","20 kg","Barre sur le dos"],"tip":"Talons surélevés, pointes de pieds un peu ouvertes, descends jusqu'en bas. Le dos ne s'enroule jamais. Trois secondes en bas, puis tu remontes le plus vite possible.","hasFeedback":true,"defaultWeight":20,"defaultReps":10,"maxWeight":45,"restBetweenSets":0,"alternatives":["Squat sans charge, 3 sec en bas","Squat 25 kg"]},
+        {"phase":"Circuit 1 — Force & puissance","type":"exercise","name":"Box jump","chips":["3 tours × 10 sauts"],"tip":"Enchaîne juste après le squat. Réception souple, genoux qui amortissent. Redescends en marchant, pas en sautant.","hasFeedback":true,"defaultWeight":0,"defaultReps":10,"maxWeight":0,"restBetweenSets":0,"alternatives":["Montées rapides sur box sans saut","Box plus haute"]},
+        {"phase":"Circuit 1 — Force & puissance","type":"rest","duration":120},
+
+        {"phase":"Circuit 2 — Fessiers","type":"exercise","name":"Hip thrust unilatéral","chips":["3 tours × 12 / jambe"],"tip":"Une seule jambe au sol, l'autre en l'air. Le bassin reste horizontal : il ne doit pas s'incliner du côté de la jambe levée.","hasFeedback":true,"defaultWeight":0,"defaultReps":12,"maxWeight":20,"restBetweenSets":0,"alternatives":["Hip thrust deux jambes","Hip thrust unilatéral avec charge"]},
+        {"phase":"Circuit 2 — Fessiers","type":"exercise","name":"Abduction à la machine","chips":["3 tours × 15 reps"],"tip":"Buste droit, écarte les genoux lentement et retiens la fermeture. C'est le retenu qui fait le travail.","hasFeedback":true,"defaultWeight":20,"defaultReps":15,"maxWeight":60,"restBetweenSets":0,"alternatives":["Abduction à l'élastique","Charge plus lourde"]},
+        {"phase":"Circuit 2 — Fessiers","type":"rest","duration":120},
+
+        {"phase":"Bloc mollets","type":"exercise","name":"Extensions des mollets sur un step","chips":["3 × 15 répétitions"],"tip":"Avant-pied sur le bord du step, talons dans le vide. Descends bas, monte haut, sans à-coup.","hasFeedback":true,"defaultWeight":0,"defaultReps":15,"maxWeight":16,"restBetweenSets":45,"alternatives":["Extensions sur une seule jambe","Extensions avec haltères"]},
+        {"phase":"Bloc mollets","type":"rest","duration":90},
+
+        {"phase":"Circuit abdos","type":"exercise","name":"Dead bug lesté","chips":["3 tours × 15 reps","Poids tenu à bout de bras"],"tip":"Écrase le bas du dos dans le sol pendant toute la série. Les bras ne bougent pas, seules les jambes descendent en alternance.","hasFeedback":true,"defaultWeight":4,"defaultReps":15,"maxWeight":12,"restBetweenSets":0,"alternatives":["Dead bug sans poids","Dead bug jambes tendues"]},
+        {"phase":"Circuit abdos","type":"exercise","name":"Russian twist","chips":["3 tours × 15 reps","Sans poids"],"tip":"Buste incliné en arrière, dos droit. La rotation vient du ventre, pas des bras.","hasFeedback":true,"defaultWeight":0,"defaultReps":15,"maxWeight":10,"restBetweenSets":0,"alternatives":["Russian twist pieds au sol","Russian twist avec poids"]},
+        {"phase":"Circuit abdos","type":"exercise","name":"Relevé de bassin","chips":["3 tours × 12 reps"],"tip":"Ce n'est pas les jambes qui montent : c'est le bassin qui s'enroule vers le nombril. Petit mouvement, ventre du bas.","hasFeedback":true,"defaultWeight":0,"defaultReps":12,"maxWeight":0,"restBetweenSets":0,"alternatives":["Relevé de bassin genoux pliés","Relevé de bassin jambes tendues"]},
+        {"phase":"Circuit abdos","type":"rest","duration":90},
+
+        {"phase":"Retour au calme","type":"exercise","name":"Étirement quadriceps","chips":["1 min / jambe"],"tip":"Debout, tire le pied vers les fessiers.","hasFeedback":false},
+        {"phase":"Retour au calme","type":"exercise","name":"Étirement ischio-jambiers","chips":["1 min / jambe"],"tip":"Assise, jambe tendue, penche le buste. Dos droit.","hasFeedback":false},
+        {"phase":"Retour au calme","type":"exercise","name":"Étirement mollets & chevilles","chips":["1 min"],"tip":"Appui contre un mur, talon au sol.","hasFeedback":false},
+        {"phase":"Retour au calme","type":"exercise","name":"Pigeon au sol","chips":["1 min / côté"],"tip":"Jambe pliée devant, l'autre tendue derrière. Penche le buste.","hasFeedback":false},
+        {"phase":"Retour au calme","type":"exercise","name":"Respiration & relâchement","chips":["2 min"],"tip":"Inspire 4 sec, expire 6 sec.","hasFeedback":false}
+      ]
+    }
+  }
+}

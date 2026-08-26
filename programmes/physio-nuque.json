@@ -1,0 +1,208 @@
+{
+  "version": "1.0",
+  "name": "Physio — nuque & trapèzes",
+  "objective": "Les six exercices prescrits par le physio pour les douleurs de nuque et de trapèzes.",
+  "seances": {
+    "A": {
+      "name": "Les six exercices du physio",
+      "desc": "Nuque, trapèzes et épaules. Trois séries de dix pour chaque exercice.",
+      "chips": [
+        "⏱ 25 min",
+        "🩺 Nuque & trapèzes"
+      ],
+      "steps": [
+        {
+          "phase": "Échauffement",
+          "type": "exercise",
+          "name": "Cercles d'épaules & ouverture de poitrine",
+          "chips": [
+            "2 min"
+          ],
+          "tip": "Grands cercles des épaules vers l'arrière, puis mains derrière la tête et coudes ouverts. Respire lentement.",
+          "hasFeedback": false
+        },
+        {
+          "phase": "Échauffement",
+          "type": "exercise",
+          "name": "Chat-vache",
+          "chips": [
+            "1 min"
+          ],
+          "tip": "À quatre pattes. Inspire en creusant, expire en arrondissant. Emmène le mouvement jusque dans la nuque.",
+          "hasFeedback": false
+        },
+        {
+          "phase": "Physio — nuque",
+          "type": "exercise",
+          "name": "Nuque droite contre élastique",
+          "chips": [
+            "3 × 10 répétitions",
+            "Élastique"
+          ],
+          "tip": "Debout, l'élastique posé sur le haut de la tête, une extrémité dans chaque main. Tire vers le bas : l'élastique cherche à écraser et à faire basculer ta tête, et ton travail est de garder la nuque longue et parfaitement droite. La tête ne bouge pas.",
+          "hasFeedback": true,
+          "defaultWeight": 0,
+          "defaultReps": 10,
+          "maxWeight": 0,
+          "restBetweenSets": 40,
+          "alternatives": [
+            "Élastique plus souple",
+            "Élastique plus dur"
+          ]
+        },
+        {
+          "phase": "Physio — nuque",
+          "type": "rest",
+          "duration": 40
+        },
+        {
+          "phase": "Physio — nuque",
+          "type": "exercise",
+          "name": "Menton de haut en bas à quatre pattes",
+          "chips": [
+            "3 × 10 répétitions",
+            "Élastique"
+          ],
+          "tip": "À quatre pattes, dos plat, tête dans le prolongement du dos. L'élastique passe derrière le crâne (pas sur la nuque) et descend jusqu'à tes mains. Baisse le menton vers le sol, puis remonte-le jusqu'à ce que la tête soit de nouveau parallèle au sol. Lent, sans à-coup.",
+          "hasFeedback": true,
+          "defaultWeight": 0,
+          "defaultReps": 10,
+          "maxWeight": 0,
+          "restBetweenSets": 40,
+          "alternatives": [
+            "Élastique plus souple",
+            "Élastique plus dur"
+          ]
+        },
+        {
+          "phase": "Physio — nuque",
+          "type": "rest",
+          "duration": 50
+        },
+        {
+          "phase": "Physio — trapèzes & épaules",
+          "type": "exercise",
+          "name": "Tirage horizontal assis",
+          "chips": [
+            "3 × 10 répétitions",
+            "12,5 kg"
+          ],
+          "tip": "Assise face à la machine, bras tendus devant. Tire la poignée vers le bas du ventre en emmenant les coudes loin derrière, puis reviens lentement sans laisser les épaules partir vers l'avant. Ce sont les muscles entre les omoplates qui travaillent, pas les bras.",
+          "hasFeedback": true,
+          "defaultWeight": 12.5,
+          "defaultReps": 10,
+          "maxWeight": 0,
+          "restBetweenSets": 40,
+          "alternatives": [
+            "Même exercice, 2,5 kg de moins",
+            "Même exercice, 2,5 kg de plus"
+          ]
+        },
+        {
+          "phase": "Physio — trapèzes & épaules",
+          "type": "rest",
+          "duration": 40
+        },
+        {
+          "phase": "Physio — trapèzes & épaules",
+          "type": "exercise",
+          "name": "Du V au W à plat ventre",
+          "chips": [
+            "3 × 10 répétitions"
+          ],
+          "tip": "À plat ventre, front posé, bras tendus devant en V. Décolle les bras, puis ramène les coudes vers l'arrière et vers le bas jusqu'à former un W. Le mouvement part du dos, pas des mains. Trapèzes du bas.",
+          "hasFeedback": true,
+          "defaultWeight": 0,
+          "defaultReps": 10,
+          "maxWeight": 0,
+          "restBetweenSets": 40,
+          "alternatives": [
+            "Même exercice, bras glissant au sol",
+            "Même exercice, 2 sec de pause en position W"
+          ]
+        },
+        {
+          "phase": "Physio — trapèzes & épaules",
+          "type": "rest",
+          "duration": 40
+        },
+        {
+          "phase": "Physio — trapèzes & épaules",
+          "type": "exercise",
+          "name": "Bras en équerre — décoller les bras",
+          "chips": [
+            "3 × 10 répétitions"
+          ],
+          "tip": "À plat ventre, front posé, bras pliés à angle droit et posés au sol à hauteur d'épaules. Décolle tout le bras du sol — coude ET main ensemble — de quelques centimètres, puis repose. Le ventre reste au sol, pas de cambrure.",
+          "hasFeedback": true,
+          "defaultWeight": 0,
+          "defaultReps": 10,
+          "maxWeight": 0,
+          "restBetweenSets": 40,
+          "alternatives": [
+            "Même exercice, un bras à la fois",
+            "Même exercice, 2 sec de pause en haut"
+          ]
+        },
+        {
+          "phase": "Physio — trapèzes & épaules",
+          "type": "rest",
+          "duration": 40
+        },
+        {
+          "phase": "Physio — trapèzes & épaules",
+          "type": "exercise",
+          "name": "Bras en équerre — lever les mains",
+          "chips": [
+            "3 × 10 répétitions"
+          ],
+          "tip": "Même position que l'exercice précédent, mais cette fois les coudes RESTENT posés au sol. Tu ne lèves que les mains, en faisant pivoter l'épaule. Très lentement : si le coude décolle, ce n'est plus le bon exercice.",
+          "hasFeedback": true,
+          "defaultWeight": 0,
+          "defaultReps": 10,
+          "maxWeight": 0,
+          "restBetweenSets": 40,
+          "alternatives": [
+            "Même exercice, un bras à la fois",
+            "Même exercice avec un petit poids de 0,5 kg"
+          ]
+        },
+        {
+          "phase": "Physio — trapèzes & épaules",
+          "type": "rest",
+          "duration": 40
+        },
+        {
+          "phase": "Retour au calme",
+          "type": "exercise",
+          "name": "Étirement des trapèzes",
+          "chips": [
+            "1 min / côté"
+          ],
+          "tip": "Amène doucement l'oreille vers l'épaule sans monter l'épaule. Main posée sur le côté de la tête, sans tirer fort.",
+          "hasFeedback": false
+        },
+        {
+          "phase": "Retour au calme",
+          "type": "exercise",
+          "name": "Ouverture de poitrine contre un mur",
+          "chips": [
+            "1 min / côté"
+          ],
+          "tip": "Main à plat sur un mur, bras tendu à hauteur d'épaule, tourne le buste dans l'autre sens.",
+          "hasFeedback": false
+        },
+        {
+          "phase": "Retour au calme",
+          "type": "exercise",
+          "name": "Respiration & relâchement",
+          "chips": [
+            "2 min"
+          ],
+          "tip": "Inspire 4 sec, expire 6 sec. Relâche les épaules à chaque expiration.",
+          "hasFeedback": false
+        }
+      ]
+    }
+  }
+}
