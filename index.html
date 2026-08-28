@@ -279,7 +279,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:middle;margin-right:6px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
       Nouveau programme
     </button>
-    <button class="btn-secondary" onclick="showScreen('s-import')">
+    <button class="btn-secondary" onclick="openImport()">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:middle;margin-right:6px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
       Importer
     </button>
@@ -433,7 +433,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     <div>
       <div class="section-label">Importer</div>
       <div style="font-size:26px;font-weight:900;letter-spacing:-.03em">Programme JSON</div>
-      <div style="font-size:14px;color:var(--muted);margin-top:8px;line-height:1.6">Colle ici le JSON fourni par Claude.</div>
+      <div style="font-size:14px;color:var(--muted);margin-top:8px;line-height:1.6">Choisis un programme livré avec l'app, ou colle un JSON.</div>
+    </div>
+    <div>
+      <div class="section-label" style="margin-bottom:10px">Programmes disponibles</div>
+      <div id="availableList" style="display:flex;flex-direction:column;gap:10px"></div>
     </div>
     <div id="currentProgramInfo" style="display:none;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:14px 16px;">
       <div style="font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Programme actuel</div>
@@ -457,7 +461,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       <div style="font-size:14px;color:var(--muted);margin-top:8px;line-height:1.6">Tous tes programmes sont gardés. Active celui que tu veux suivre en ce moment.</div>
     </div>
     <div id="programsList" style="display:flex;flex-direction:column;gap:12px"></div>
-    <button class="btn-secondary" onclick="showScreen('s-import')">Importer un nouveau programme</button>
+    <button class="btn-secondary" onclick="openImport()">Importer un nouveau programme</button>
   </div>
 </div>
 
@@ -1337,6 +1341,46 @@ function importProgram() {
     updateHomeUI();
     setTimeout(()=>showScreen('s-home'),1000);
   } catch(e) { status.className='import-status err'; status.textContent='✗ JSON invalide : '+e.message; }
+}
+
+// Catalogue des programmes livrés avec l'app : ./programmes/index.json.
+// Un bouton par programme, chargé depuis l'app elle-même — donc sans dépendre
+// d'un lien externe, qui n'atteint pas l'app installée sur l'écran d'accueil.
+function openImport() {
+  renderAvailablePrograms();
+  showScreen('s-import');
+}
+
+function renderAvailablePrograms() {
+  const host = document.getElementById('availableList');
+  if (!host) return;
+  host.innerHTML = '<div style="font-size:13px;color:var(--muted)">Chargement…</div>';
+  fetch('./programmes/index.json?v=' + Date.now())
+    .then(r => r.ok ? r.json() : Promise.reject(new Error('catalogue introuvable')))
+    .then(cat => {
+      const list = (cat && cat.programmes) || [];
+      if (!list.length) { host.innerHTML = ''; return; }
+      host.innerHTML = list.map(p => `<button class="btn-secondary" style="text-align:left;line-height:1.4" onclick="loadProgramByName('${esc(p.fichier)}')">
+        <div style="font-weight:800">${esc(p.nom || p.fichier)}</div>
+        <div style="font-size:12px;font-weight:500;color:var(--muted);margin-top:2px">${esc(p.desc || '')}</div>
+      </button>`).join('');
+    })
+    .catch(() => { host.innerHTML = '<div style="font-size:13px;color:var(--muted)">Liste indisponible hors connexion. Colle le JSON ci-dessous.</div>'; });
+}
+
+function loadProgramByName(nom) {
+  const status = document.getElementById('importStatus');
+  fetch('./programmes/' + nom + '.json?v=' + Date.now())
+    .then(r => r.ok ? r.json() : Promise.reject(new Error('fichier introuvable')))
+    .then(data => {
+      if (!data.seances) throw new Error('"seances" manquant');
+      libActivate(libSave(data, nom));
+      status.className = 'import-status ok';
+      status.textContent = '✓ Programme « ' + (data.name || nom) + ' » chargé et activé.';
+      updateHomeUI();
+      setTimeout(() => showScreen('s-home'), 900);
+    })
+    .catch(e => { status.className = 'import-status err'; status.textContent = '✗ Impossible de charger : ' + e.message; });
 }
 
 function loadDefaultProgram() {

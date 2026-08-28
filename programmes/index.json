@@ -1,0 +1,29 @@
+{
+  "programmes": [
+    {
+      "fichier": "coach-bas-du-corps",
+      "nom": "Coach — Bas du corps & Abdos",
+      "desc": "Step up, circuits jambes, circuit abdos · ~55 min"
+    },
+    {
+      "fichier": "physio-nuque",
+      "nom": "Physio — nuque & trapèzes",
+      "desc": "Les six exercices du physio · ~25 min"
+    },
+    {
+      "fichier": "danse-physio",
+      "nom": "Danse & Physio",
+      "desc": "Version précédente · 3 séances"
+    },
+    {
+      "fichier": "reprise-douce",
+      "nom": "Reprise douce",
+      "desc": "Retour après maladie · 2 séances"
+    },
+    {
+      "fichier": "normal",
+      "nom": "Perte de gras & tonification",
+      "desc": "Après la reprise douce · 2 séances"
+    }
+  ]
+}
